@@ -1,0 +1,6 @@
+- [ ] jeder Teilnehmer muss ein Arbeitsjournal Umfang: (Vorspiel, STARTHack, Nachspiel dokumentieren)
+- [ ] Fotos und Videos
+- [ ] DueDate: 15. März 2019
+- [ ] Erfolgreiche Teilnahme («vorne mit dabei»).
+- [ ] 10-seitiger Fachbericht über Ihre Lösung bzw. umgesetzte Idee verfasst
+- [ ] HSLU Blog-Beitrag für HSLU-Mitarbeiterin Yasmin Billeter erfassen
