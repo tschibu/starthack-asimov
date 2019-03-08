@@ -1,20 +1,19 @@
 """[Log Helper]
 
-Diese Klasse stellt logger Instanzen für die anderen Module als Hilfsklasse zur Verfügung.
+Helper class to instantinate loggers
 """
 
 import logging
 
-
-def create_Logger(fileHandler=False, logger_name="undefined"):
+def get(fileHandler=False, logger_name="undefined"):
     """[Creates Logger]
-    
+
     Keyword Arguments:
-        fileHandler {[boolean]} -- Erstellt einen Filehandler (default: {FALSE})
-        logger_name {str} -- Name des Loggers (default: {"undefined"})
-    
+        fileHandler {[boolean]} -- Creates filehandler (default: {FALSE})
+        logger_name {str} -- Name of logger (default: {"undefined"})
+
     Returns:
-        logging.getLogger() -- Ein logging Objekt
+        logging.getLogger() -- logging object
     """
 
     #Setting Up Logger
