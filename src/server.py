@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Server for the Raspi Webapp
 Examples:
-- get json with curl -> curl -X POST http://0.0.0.0:2828/api/v1/getCrashInfo
+- get json with curl -> curl -X POST http://0.0.0.0:2828/api/v1/getCrashInfo -d data/1.json
 - get image with curl -> curl -X POST http://0.0.0.0:2828/api/v1/getCrashImage -o received_img.png
 """
 import sys
@@ -17,6 +17,7 @@ from sanic.response import file
 import helper.log_helper as logger
 import config
 from drawer import Drawer
+from data_parser import DataParser
 
 app = Sanic()
 app.name = "CrashSimulationAsimov"
@@ -44,7 +45,8 @@ async def favicon(request):
 async def crash_info(request):
     ''' crash info parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashInfo'")
-    return json({'impactAngle': 90, 'offsetMaximumForce': 3})
+    angle, max_force_offset, _, _ = DataParser().parse_input_data(request.body.decode('utf8'))
+    return json({'impactAngle': angle, 'offsetMaximumForce': max_force_offset})
 
 # POST request 2 - returns a rendered crash image (PNG)
 @app.route('/api/v1/getCrashImage', methods=['POST',])
