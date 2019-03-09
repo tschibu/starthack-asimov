@@ -17,7 +17,7 @@ def test_crashimage(json_file):
 
 def __post_request(url, json_file):
     resp = requests.post(url, data=open(json_file, 'rb'))
-    return resp
+    assert resp.status_code == 200, "HTTP response code for URL: %s is not 200!" %url
 
 def __get_url(endpoint):
     return 'http://'+config.host+':'+str(config.port)+endpoint
