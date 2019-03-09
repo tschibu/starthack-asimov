@@ -45,10 +45,8 @@ async def favicon(request):
 async def crash_info(request):
     ''' crash info parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashInfo'")
-    customOffset = 0
-    if request.get('timeOffsetMS') is not None:
-        customOffset = request.get('timeOffsetMS')
-    angle, max_force_offset, _, _, _ = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=customOffset)
+
+    angle, max_force_offset, _, _, _ = DataParser().parse_input_data(request.body.decode('utf8'))
     return json({'impactAngle': angle, 'offsetMaximumForce': max_force_offset})
 
 # POST request 2 - returns a rendered crash image (PNG)
@@ -56,7 +54,16 @@ async def crash_info(request):
 async def crash_image(request):
     ''' crash image parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashImage'")
-    angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'))
+
+    customOffset = 0
+    try:
+        customOffset = int(request.args.get('timeOffsetMS'))
+    except Exception as e:
+        log.error(e)
+
+    log.info("Set customOffset: " + str(customOffset) + "ms")
+
+    angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=customOffset)
     d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
     return await file(d.get_image())
 

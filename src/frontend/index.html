@@ -23,6 +23,9 @@
         <h5 id="impactAngle"></h5>
         <h3>offsetMaximumForce:</h3>
         <h5 id="offsetMaximumForce"></h5>
+        <h3>customOffset:</h3>
+        <input type="range" min="-8000" max="8000" value="0" step="10" class="slider" id="customOffset" onchange="customOffsetOnChange(this);">
+        <h5 id="customOffsetText"></h5>
     </section>
 
     <section>
@@ -48,7 +51,15 @@
                 setFileName(file.name);
                 setValues("undefined", "undefined");
 
-                getText(file, [requestCrashInfo, requestCrashImage]);
+                reader = new FileReader();
+                reader.onload = function (event) {
+                    requestCrashInfo(event.target.result);
+
+                    var offset = document.getElementById("customOffset").value;
+                    console.log("Using customOffset: " + offset);
+                    requestCrashImage(event.target.result, offset);
+                };
+                reader.readAsText(file);
             }
             var dropzone = document.getElementById("upload");
             dropzone.classList.remove("dragover");
@@ -102,16 +113,6 @@
             xhr.send(json_string);
         }
 
-        function getText(file, callback) {
-            reader = new FileReader();
-            reader.onload = function (event) {
-                [...callback].forEach(cb => {
-                    cb(event.target.result);
-                });
-            };
-            reader.readAsText(file);
-        }
-
         function setFileName(filename) {
             fn = document.getElementById("filename");
             fn.innerHTML = filename;
@@ -132,6 +133,10 @@
                 img.innerHTML = "<img class='image' src='" + reader.result + "'></img>";
             };
             reader.readAsDataURL(response);
+        }
+
+        function customOffsetOnChange(target) {
+            document.getElementById("customOffsetText").innerHTML = document.getElementById("customOffset").value;
         }
     </script>
 </body>
