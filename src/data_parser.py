@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import base64
 import json
 
@@ -10,20 +9,15 @@ logger = log_helper.get(False, "Data Parse")
 
 
 class DataParser:
-    def parse_input_data(self, data):
-        object = None
-        # TODO implment
-        #ablauf
-        # decode base64
-        payload = DataParser.__base64_decode(self,data)
-        # the json into an array structure
-        payload_arr  = json.loads(payload)
+    def parse_input_data(self, file_path):
+        basejson = self.__read_json_from_filesystem(file_path)
+        b64payload = self.__get_b64payload_from_basejson(basejson)
+        encoded = self.__base64_decode(b64payload)
+        pylist = self.__encoded_payload_to_list(encoded)
+        pylist['data'] = self.__convert_timestamps(pylist['data'], pylist['timestamp'], pylist['referenceTime'])
+        pylist = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
+        return pylist
 
-        #conver realtive times from data and from gps data
-        #ToDo
-        #get virtual xyz into payload
-
-        return payload_arr_done
 
     def __base64_decode(self, base64_string):
         """
@@ -33,7 +27,7 @@ class DataParser:
         """
         logger.info("Base64 Encoding string")
 
-        #Decode string
+        # Decode string
         decoded_string = base64.b64decode(base64_string)
         decoded_string = decoded_string.decode("utf-8")
 
@@ -97,7 +91,7 @@ class DataParser:
         """
         # TODO implement SERGE
         rb = np.array(ringbuffer)
-        return rb[rb[:,0].argsort()]
+        return rb[rb[:, 0].argsort()]
 
     def __read_json_from_filesystem(self, path2file):
         with open(path2file) as json_file:
@@ -109,16 +103,3 @@ class DataParser:
     
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
-
-##Example Code
-basejson = DataParser._DataParser__read_json_from_filesystem(None, r'data\1.json')
-b64payload = DataParser._DataParser__get_b64payload_from_basejson(None, basejson)
-encoded = DataParser._DataParser__base64_decode(None, b64payload)
-#now convert the json encoded to a numpy array
-pylist = DataParser._DataParser__encoded_payload_to_list(None, encoded)
-#Acces the array with indices or strings, yai
-print(pylist["id"])
-print(pylist)
-pylist_timestamp = DataParser._DataParser__convert_timestamps(None, pylist['data'], pylist['timestamp'], pylist['referenceTime'])
-print("---------------------")
-print(pylist_timestamp)
