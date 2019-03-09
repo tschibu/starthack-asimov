@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import base64
+import json
 
 from helper import log_helper
 #Definde Logger without Filehandle
@@ -12,7 +13,17 @@ class DataParser:
     def parse_input_data(self, data):
         object = None
         # TODO implment  
-        return object
+        #ablauf
+        # decode base64        
+        payload = DataParser.__base64_decode(self,data)
+        # the json into an array structure
+        payload_arr  = json.loads(payload)
+
+        #conver realtive times from data and from gps data
+        #ToDo
+        #get virtual xyz into payload
+
+        return payload_arr_done
 
     def __base64_decode(self, base64_string):
         """
@@ -82,3 +93,17 @@ class DataParser:
         """
         # TODO implement SERGE
 
+    def __read_json_from_filesystem(self, path2file):
+        with open(path2file) as json_file:
+            data = json.load(json_file)
+            return data
+
+    def __get_b64payload_from_basejson(self, basejson):
+        return basejson[0]['payload']['b64_payload'] 
+
+#read json from fs
+
+basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\encoded_b64payload_small.json')
+b64payload = DataParser._DataParser__get_b64payload_from_basejson(None, basejson)    
+encoded = DataParser._DataParser__base64_decode(None, b64payload)
+print(encoded)
