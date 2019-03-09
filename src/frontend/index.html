@@ -115,7 +115,6 @@
             img = document.getElementById('image');
             var reader = new FileReader();
             reader.onloadend = () => {
-                console.log(reader.result);
                 img.innerHTML = "<img class='image' src='" + reader.result + "'></img>";
             };
             reader.readAsDataURL(response);

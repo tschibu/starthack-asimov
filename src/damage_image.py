@@ -4,9 +4,9 @@ import numpy as np
 import os
 import math
 
-class Drawer:
+class DamageImage:
     def __init__(self, angle_impact, max_force, damage_id, crash_time, max_force_offset=None):
-        self.log = logger.get(True, "Drawer")
+        self.log = logger.get(True, "DamageImage")
         self.image = cv2.imread("images/car_big.png")
         self.image_grey = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         self.damage_id = damage_id
@@ -32,8 +32,6 @@ class Drawer:
         length = 1000
         self.y = int(round(self.null_point_y + length * np.sin(self.angle_impact * np.pi / 180.0)))
         self.x = int(round(self.null_point_x + length * np.cos(self.angle_impact * np.pi / 180.0)))
-        print(self.x)
-        print(self.y)
 
         ret, thresh = cv2.threshold(self.image_grey, 127, 255, 0)
         im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -65,8 +63,6 @@ class Drawer:
 
         self.car_point_x = np.nonzero(one_point)[1][0]
         self.car_point_y = np.nonzero(one_point)[0][0]
-        print(self.car_point_x)
-        print(self.car_point_y)
 
     def __draw(self):
         if self.off_set_in_milliseconds is not None:
@@ -151,11 +147,3 @@ class Drawer:
 
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
-
-if __name__ == "__main__":
-    drawer = Drawer(235.19008793270834, 21380.161292511744, 35, "2018-12-25 10:47:39", 5339896)
-    drawer.show_image()
-    #print(drawer.get_image())
-    # drawer.remove_image()
-

@@ -5,7 +5,7 @@ import math
 import datetime
 import pandas as pd
 
-from .helper import log_helper
+import helper.log_helper as log_helper
 
 # Define Logger without file handle
 logger = log_helper.get(False, "Data Parse")

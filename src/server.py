@@ -16,7 +16,7 @@ from sanic.response import file
 
 import helper.log_helper as logger
 import config
-from damage_image import Drawer
+from damage_image import DamageImage
 from data_parser import DataParser
 
 app = Sanic()
@@ -45,7 +45,7 @@ async def favicon(request):
 async def crash_info(request):
     ''' crash info parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashInfo'")
-    angle, max_force_offset, _, _ = DataParser().parse_input_data(request.body.decode('utf8'))
+    angle, max_force_offset, _, _, _ = DataParser().parse_input_data(request.body.decode('utf8'))
     return json({'impactAngle': angle, 'offsetMaximumForce': max_force_offset})
 
 # POST request 2 - returns a rendered crash image (PNG)
@@ -53,7 +53,8 @@ async def crash_info(request):
 async def crash_image(request):
     ''' crash image parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashImage'")
-    d = Drawer(1300, 550, 60, 180, 6110)
+    angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'))
+    d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
     return await file(d.get_image())
 
 if __name__ == '__main__':
