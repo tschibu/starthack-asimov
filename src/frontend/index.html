@@ -16,6 +16,15 @@
         <h2>CrashSimulation - Asimov</h2>
     </section>
 
+    <section class="data">
+        <h3>Filename:</h3>
+        <h5 id="filename"></h5>
+        <h3>impactAngle:</h3>
+        <h5 id="impactAngle"></h5>
+        <h3>offsetMaximumForce:</h3>
+        <h5 id="offsetMaximumForce"></h5>
+    </section>
+
     <section class="image">
 
     </section>
@@ -27,12 +36,62 @@
     </section>
 
     <script>
-        function dropHandler(event) {
-            console.log(event);
+        function dropHandler(ev) {
+            ev.preventDefault();
+
+            if (ev.dataTransfer.items) {
+                var item = ev.dataTransfer.items[0];
+                var file = item.getAsFile();
+                console.log('Sending ' + file.name + ' to backend now...');
+
+                setFileName(file.name);
+                setValues("undefined", "undefined");
+
+                getText(file, requestCrashInfo);
+            }
         }
 
-        function dragOverHandler(event) {
-            console.log(event);
+        function dragOverHandler(ev) {
+            ev.preventDefault();
+        }
+
+        function requestCrashInfo(json_string) {
+            console.log("requestCrashInfo: " + json_string);
+            var xhr = new XMLHttpRequest();
+
+            var url = "http://"+window.location.hostname+":2828/api/v1/getCrashInfo";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log("impactAngle: " + json.impactAngle);
+                    console.log("offsetMaximumForce: " + json.offsetMaximumForce);
+                    setValues(json.impactAngle, json.offsetMaximumForce);
+                }
+            };
+            xhr.send(json_string);
+        }
+
+        function getText(file, callback) {
+            reader = new FileReader();
+            reader.onload = function (event) {
+                callback(event.target.result);
+            };
+            reader.readAsText(file);
+        }
+
+        function setFileName(filename) {
+            fn = document.getElementById("filename");
+            fn.innerHTML = filename;
+        }
+
+        function setValues(impactAngle, offsetMaximumForce) {
+            ia = document.getElementById("impactAngle");
+            ia.innerHTML = impactAngle;
+
+            omf = document.getElementById("offsetMaximumForce");
+            omf.innerHTML = offsetMaximumForce;
         }
     </script>
 </body>
