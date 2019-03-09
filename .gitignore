@@ -1,2 +1,7 @@
 *.log
 .idea/**
+src/helper/__pycache__/log_helper.cpython-36.pyc
+src/helper/__pycache__/__init__.cpython-36.pyc
+src/helper/__pycache__/log_helper.cpython-37.pyc
+src/helper/__pycache__/__init__.cpython-37.pyc
+doc/02-tag1.md
