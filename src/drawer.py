@@ -2,6 +2,7 @@ import cv2
 import helper.log_helper as logger
 import numpy as np
 import os
+import math
 
 class Drawer:
     def __init__(self, angle_impact, max_force, damage_id, crash_time, max_force_offset=None):
@@ -10,8 +11,13 @@ class Drawer:
         self.image_grey = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         self.damage_id = damage_id
         self.crash_time = crash_time
-        self.x = 1300
-        self.y = 550
+        self.null_point_x = 655
+        self.null_point_y = 582
+        self.car_point_x = 0
+        self.car_point_y = 0
+        self.image_size_x, self.image_size_y = self.image.shape[0], self.image.shape[1]
+        self.x = 0
+        self.y = 0
         self.max_force = max_force
         self.angle_impact = angle_impact
         self.off_set_in_milliseconds = max_force_offset
@@ -23,30 +29,65 @@ class Drawer:
         self.log.debug("Image-shape = " + str(self.image.shape))
 
     def __cut_car(self):
+        length = 1000
+        self.y = int(round(self.null_point_y + length * np.sin(self.angle_impact * np.pi / 180.0)))
+        self.x = int(round(self.null_point_x + length * np.cos(self.angle_impact * np.pi / 180.0)))
+        print(self.x)
+        print(self.y)
+
         ret, thresh = cv2.threshold(self.image_grey, 127, 255, 0)
         im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(self.image, contours, 1, (0, 255, 0), 2)
+        # cv2.drawContours(self.image, contours, 1, (0, 255, 0), 2)
+
+        # Create mask where white is what we want, black otherwise
+        mask = np.zeros_like(self.image)
+
+        # Draw filled contour in mask
+        cv2.drawContours(mask, contours, 1, 255, -1)
+
+        # Extract out the object and place into output image
+        out = np.zeros_like(self.image)
+        out[mask == 255] = self.image[mask == 255]
+
+        blank_image_line = np.zeros(self.image.shape, np.uint8)
+
+        x = int(1500*np.cos(math.radians(self.angle_impact+180))) + self.null_point_x
+        y = int(1500*np.sin(math.radians(self.angle_impact+180))) + self.null_point_y
+
+        cv2.line(blank_image_line, (self.null_point_x, self.null_point_y), (self.x, self.y), (0, 0, 255), 2)
+
+        blank_image_contour = np.zeros(self.image.shape, np.uint8)
+
+        cv2.drawContours(blank_image_contour, contours, 1, (255, 255,  255), 2)
+        cv2.drawContours(mask, contours, 1, (0, 0, 0), 1)
+
+        one_point = cv2.bitwise_and(blank_image_line, blank_image_contour)
+
+        self.car_point_x = np.nonzero(one_point)[1][0]
+        self.car_point_y = np.nonzero(one_point)[0][0]
+        print(self.car_point_x)
+        print(self.car_point_y)
 
     def __draw(self):
         if self.off_set_in_milliseconds is not None:
             self.__add_text(self.off_set_in_milliseconds)
 
+        # add arrow and circle
         self.__cut_car()
 
-        # add arrow and circle
         self.__draw_arrow()
         self.__draw_circle()
 
-    def __draw_arrow(self):
-        # TODO: calculate source from angle
 
-        cv2.arrowedLine(self.image, (1457, 1208), (self.x, self.y), (0, 0, 255), 4)
+    def __draw_arrow(self):
+        cv2.circle(self.image, (self.null_point_x, self.null_point_y), 35, (91, 187, 155), -1) # Nullpunkt
+        cv2.arrowedLine(self.image, (self.x, self.y), (self.car_point_x, self.car_point_y), (0, 0, 255), 4)
 
     def __draw_circle(self):
         radius = self.__dynamic_damage_calc(self.max_force)
-        cv2.circle(self.image, (self.x, self.y), radius, (0, 0, 255), 2)
+        cv2.circle(self.image, (self.car_point_x, self.car_point_y), radius, (0, 0, 255), 2)
         self.log.debug("radius=" + str(radius))
-        cv2.circle(self.image, (self.x, self.y), 5, (0, 0, 0), -1)
+        cv2.circle(self.image, (self.car_point_x, self.car_point_y), 10, (91, 187, 155), -1)
 
     def __add_text(self, off_set_in_milliseconds):
         font = cv2.FONT_HERSHEY_SIMPLEX
@@ -113,7 +154,7 @@ class Drawer:
 
 
 if __name__ == "__main__":
-    drawer = Drawer(132.19008793270834, 21380.161292511744, 35, "2018-12-25 10:47:39", 5339896)
+    drawer = Drawer(235.19008793270834, 21380.161292511744, 35, "2018-12-25 10:47:39", 5339896)
     drawer.show_image()
     #print(drawer.get_image())
     # drawer.remove_image()
