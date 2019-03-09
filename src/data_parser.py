@@ -116,10 +116,15 @@ class DataParser:
 
     def __get_b64payload_from_basejson(self, basejson):
         return basejson[0]['payload']['b64_payload']
+    
+    def __encoded_payload_to_list(self, encodedjsonstring):
+        return json.loads(encodedjsonstring)
 
-#read json from fs
-
+##Example Code
 basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\encoded_b64payload_small.json')
 b64payload = DataParser._DataParser__get_b64payload_from_basejson(None, basejson)
 encoded = DataParser._DataParser__base64_decode(None, b64payload)
-print(encoded)
+#now convert the json encoded to a numpy array
+pylist = DataParser._DataParser__encoded_payload_to_list(None, encoded)
+#Acces the array with indices or strings, yai
+print(pylist["id"])
