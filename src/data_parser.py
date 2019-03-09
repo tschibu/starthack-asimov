@@ -48,20 +48,10 @@ class DataParser:
         :return:                data array with converted timestamps
         """
         array = np.array(data)
-        array[:, 0] = (timestamp - reference_time) * 1000 + array[:, 0]
-        return array
-
-
-    def __relative2absolute_timestamp(self, relative_timestamp, timestamp, reference_time):
-        """
-        Converts the relative timestamp to an absolute timestamp.
-        :param relative_timestamp:  relative timestamp in milliseconds
-        :param timestamp:           real time unix timestamp in seconds since epoch
-        :param reference_time:      reference timestamp in seconds for converting data timestamp to real timestamp
-        :return:                    absolute timestamp
-        """
-        # TODO implement SERGE
-        return (timestamp - reference_time) * 1000 + relative_timestamp
+        array = array.astype(np.uint64)
+        c = (timestamp - reference_time) * 1000
+        array[:, 0] = array[:, 0] + c
+        return array.tolist()
 
 
     def __get_virtual_xyz(self, acceleration, calibration):
@@ -121,10 +111,14 @@ class DataParser:
         return json.loads(encodedjsonstring)
 
 ##Example Code
-basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\encoded_b64payload_small.json')
+basejson = DataParser._DataParser__read_json_from_filesystem(None, r'data\1.json')
 b64payload = DataParser._DataParser__get_b64payload_from_basejson(None, basejson)
 encoded = DataParser._DataParser__base64_decode(None, b64payload)
 #now convert the json encoded to a numpy array
 pylist = DataParser._DataParser__encoded_payload_to_list(None, encoded)
 #Acces the array with indices or strings, yai
 print(pylist["id"])
+print(pylist)
+pylist_timestamp = DataParser._DataParser__convert_timestamps(None, pylist['data'], pylist['timestamp'], pylist['referenceTime'])
+print("---------------------")
+print(pylist_timestamp)
