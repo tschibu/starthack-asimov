@@ -1,0 +1,3 @@
+CrashSimulatorAsimov
+sanic>=0.8.0 #webserver https://sanic.readthedocs.io/en/latest/
+argparse>=1.4.0 #CLI argument parsing
