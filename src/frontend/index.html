@@ -21,9 +21,19 @@
     </section>
 
     <section class="upload">
-
+        <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+            <p>Drag one JSON crash report file to this Drop Zone ...</p>
+        </div>
     </section>
 
-    <script src="/frontend/index.js"></script>
+    <script>
+        function dropHandler(event) {
+            console.log(event);
+        }
+
+        function dragOverHandler(event) {
+            console.log(event);
+        }
+    </script>
 </body>
 </html>
