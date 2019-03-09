@@ -114,18 +114,49 @@ class DataParser:
         return json.loads(encodedjsonstring)
 
 ##Example Code
-#data dave
+<<<<<<< HEAD
+#basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\encoded_b64payload_small.json')
 basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\1.json')
-#data serge
-basejson = DataParser._DataParser__read_json_from_filesystem(None, r'data\1.json')
 
+=======
+basejson = DataParser._DataParser__read_json_from_filesystem(None, r'data\1.json')
+>>>>>>> a091ab03e65720a3a0b5e17fb2c4ddc7f15a525d
 b64payload = DataParser._DataParser__get_b64payload_from_basejson(None, basejson)
 encoded = DataParser._DataParser__base64_decode(None, b64payload)
 #now convert the json encoded to a numpy array
 pylist = DataParser._DataParser__encoded_payload_to_list(None, encoded)
+<<<<<<< HEAD
+
+acctest = DataParser._DataParser__get_virtual_xyz(None,pylist["data"], pylist["calibration"])
+print(acctest)
+
+import matplotlib.pyplot as plt  
+#x = np.linspace(-10, 9, 20)
+#y = x ** 3
+
+#get every x and y into array
+
+x_plt = []
+y_plt = []
+for i in acctest:
+    x_plt.append(i[1])
+    y_plt.append(i[2])
+
+
+
+print(x_plt)
+print (y_plt)
+
+plt.scatter(x_plt, y_plt)  
+plt.xlabel('X axis')  
+plt.ylabel('Y axis')  
+plt.title('Cube Function')  
+plt.show()  
+=======
 #Acces the array with indices or strings, yai
 print(pylist["id"])
 print(pylist)
 pylist_timestamp = DataParser._DataParser__convert_timestamps(None, pylist['data'], pylist['timestamp'], pylist['referenceTime'])
 print("---------------------")
 print(pylist_timestamp)
+>>>>>>> a091ab03e65720a3a0b5e17fb2c4ddc7f15a525d
