@@ -35,10 +35,6 @@ class DataParser:
         if calibration:
             acceleration = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
 
-        # norm with oneG
-        oneG = pylist["oneG"]
-        damage_id = pylist["id"]
-
         #get rel_times for better handlin
         rel_time = [x[0] for x in acceleration]
         #get x,y,z for better handling
@@ -46,16 +42,22 @@ class DataParser:
         ry = [x[2] for x in acceleration]
         rz = [x[3] for x in acceleration]
 
+        # norm with oneG
+        oneG = pylist["oneG"]
+        #norm with one g
+        rx, ry, rz = self.norm_with_g(rx, ry, rz, oneG)
+        damage_id = pylist["id"]
+
 
         if(custom_offset!=0 and ( custom_offset <= np.max(rel_time) and custom_offset >= np.min(rel_time) )):#calculate custom offset force
             max_force_offset = custom_offset
-            max_force = self.__calculate_custom_offset_force(custom_offset, rx, ry, rz)
+            max_force = self.__calculate_custom_offset_force(rel_time, custom_offset, rx, ry, rz)
             print(max_force)
         else: #calculate max offset
             max_force_offset = self.__calculate_offset_max_force(rel_time, rx, ry, rz)
             max_force = self.__calculate_max_force(rel_time, rx, ry, rz)
 
-        crash_time = pylist["timestamp"] + max_force_offset
+        crash_time = pylist["timestamp"] 
         crash_time = pd.to_datetime(crash_time, unit='s')
 
         # calculate angle
@@ -130,12 +132,11 @@ class DataParser:
 
         return acceleration
 
-    def __norm_with_g(self, acceleration, one_g):
-        for n_acc in acceleration:
-            n_acc[1] = n_acc[1] / one_g
-            n_acc[2] = n_acc[2] / one_g
-            n_acc[3] = n_acc[3] / one_g
-        return acceleration
+    def norm_with_g(self, calibrated_rx, calibrated_ry, calibrated_rz, oneG):
+        rx_in_g = [x / oneG for x in calibrated_rx]
+        ry_in_g = [x / oneG for x in calibrated_ry]
+        rz_in_g = [(x + oneG) / oneG for x in calibrated_rz]
+        return rx_in_g, ry_in_g, rz_in_g
 
     # only force calc
     def __calculate_forces(self, rx, ry, rz):
@@ -151,8 +152,10 @@ class DataParser:
         offset_max_force = forces.index(np.max(forces))  # index of max force value
         return rel_time[offset_max_force]  # relative time at max force value
 
-    def __calculate_custom_offset_force(self, custom_offset, rx, ry, rz):
-        return [np.sqrt(rx.index[custom_offset] ** 2 + ry.index[custom_offset] ** 2 + rz.index[custom_offset]** 2)]
+    def __calculate_custom_offset_force(self, rel_time,custom_offset, rx, ry, rz):
+        #print(rel_time)
+        return rel_time.index(custom_offset)  # relative time at max force value
+        #return [np.sqrt(rx.index[custom_offset] ** 2 + ry.index[custom_offset] ** 2 + rz.index[custom_offset]** 2)]
 
     def __calculate_angle(self, offset_maxforce_in_ms, predicted_impact_time, rel_time, rx, ry):
         try:
@@ -161,8 +164,8 @@ class DataParser:
             return None
 
         if offset_maxforce_in_ms - predicted_impact_time <= 0:
-            return None
-            logger.error("Impact should be in the future, black magic")
+            #return None
+            logger.error("Impact should be in the future, black magic") #return anyway
 
         return 180 - math.degrees(np.arctan2(ry[offset_index], rx[offset_index]))
 
@@ -193,6 +196,6 @@ class DataParser:
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
 
-#dp = DataParser()
-#result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json', True, custom_offset=4624111)
-#print(result)
+dp = DataParser()
+result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\5.json', True)
+print(result)
