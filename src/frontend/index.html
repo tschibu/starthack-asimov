@@ -25,11 +25,13 @@
         <h5 id="offsetMaximumForce"></h5>
     </section>
 
-    <section class="image" id="image">
+    <section>
+        <div id="image">
+        </div>
     </section>
 
     <section class="upload">
-        <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <div class="dropZone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
             <p>Drag one JSON crash report file to this Drop Zone ...</p>
         </div>
     </section>
@@ -76,10 +78,11 @@
 
             var url = "http://"+window.location.hostname+":2828/api/v1/getCrashImage";
             xhr.open("POST", url, true);
+            xhr.responseType = "blob";
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    setImage(xhr.responseText);
+                    setImage(xhr.response);
                 }
             };
             xhr.send(json_string);
@@ -108,9 +111,14 @@
             omf.innerHTML = offsetMaximumForce;
         }
 
-        function setImage(responseText) {
+        function setImage(response) {
             img = document.getElementById('image');
-            img.innerHTML = '<img src="data:image/png;text, ' + responseText + '"/>';
+            var reader = new FileReader();
+            reader.onloadend = () => {
+                console.log(reader.result);
+                img.innerHTML = "<img class='image' src='" + reader.result + "'></img>";
+            };
+            reader.readAsDataURL(response);
         }
     </script>
 </body>
