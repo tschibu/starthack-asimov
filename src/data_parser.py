@@ -180,7 +180,7 @@ class DataParser:
         return rb[rb[:, 0].argsort()]
 
     def __read_json_from_filesystem(self, path2file):
-        if os.path.exists(path2file):
+        if len(path2file) < 255 and os.path.exists(path2file):
             with open(path2file) as json_file:
                 data = json.load(json_file)
                 return data
