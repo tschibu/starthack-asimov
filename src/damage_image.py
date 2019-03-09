@@ -108,8 +108,8 @@ class DamageImage:
         """
         create the radius for the damage value.
         """
-        max_damage = 60000
-        min_damage = 8000
+        max_damage = 15
+        min_damage = 2
 
         if damage >= max_damage:
             damage = max_damage - 1
@@ -117,7 +117,7 @@ class DamageImage:
         if damage <= min_damage:
             damage = min_damage
 
-        return int((damage / max_damage) * 150)
+        return int((damage / max_damage) * 300)
 
     def __write_image(self):
         """
