@@ -24,8 +24,10 @@
         <h3>offsetMaximumForce:</h3>
         <h5 id="offsetMaximumForce"></h5>
         <h3>customOffset:</h3>
-        <input type="range" min="-8000" max="8000" value="0" step="10" class="slider" id="customOffset" onchange="customOffsetOnChange(this);">
+        <input type="range" min="-8000" max="8000" value="0" step="10" class="slider" id="customOffset" onchange="customOffsetOnChange(event);">
         <h5 id="customOffsetText"></h5>
+        <h3>Play:</h3>
+        <button type="button" onclick="play(event);">Play</button>
     </section>
 
     <section>
@@ -126,8 +128,20 @@
             reader.readAsDataURL(response);
         }
 
-        function customOffsetOnChange(target) {
+        function customOffsetOnChange(ev) {
+            ev.preventDefault();
+
             document.getElementById("customOffsetText").innerHTML = document.getElementById("customOffset").value;
+        }
+
+        function play(ev) {
+            ev.preventDefault();
+
+            filename = document.getElementById("filename").value;
+            if(filename != 'undefined' && filename !== "")
+            {
+                console.log("Button Pressed");
+            }
         }
     </script>
 </body>

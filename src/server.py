@@ -52,7 +52,7 @@ async def crash_info(request):
 # POST request 2 - returns a rendered crash image (PNG)
 @app.route('/api/v1/getCrashImage', methods=['POST',])
 async def crash_image(request):
-    ''' crash image parses the crash record and returns a JSON object '''
+    ''' crash image parses the crash record and returns a Image '''
     log.info("Handling '/api/v1/getCrashImage'")
 
     customOffset = 0
@@ -66,6 +66,21 @@ async def crash_image(request):
     angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=customOffset)
     d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
     return await file(d.get_image())
+
+# GET request 3 - returns a rendered crash image list (PNG)
+@app.route('/api/v1/play', methods=['GET',])
+async def image_list(request):
+    ''' crash image parses the crash record and returns a Image List '''
+    log.info("Handling '/api/v1/getCrashImage'")
+
+    images = []
+
+    for i in range(-8000, 8000, 100):
+        angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=i)
+        d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
+        images.append(d.get_image())
+
+    return json({"data": images})
 
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_int_handler)
