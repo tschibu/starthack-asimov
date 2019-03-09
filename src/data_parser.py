@@ -102,3 +102,7 @@ class DataParser:
     
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
+
+dp = DataParser()
+result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\2.json')
+print(result)
