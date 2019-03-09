@@ -22,7 +22,6 @@ app.name = "CrashSimulationAsimov"
 log = logger.get(True, "Server")
 
 # SIGINT handler (when pressing Ctrl+C)
-
 def signal_int_handler(sig, frame):
     print("Ctrl+C Pressed. Exit...")
     sys.exit(0)
