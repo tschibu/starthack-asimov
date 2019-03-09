@@ -67,16 +67,17 @@ async def crash_image(request):
     d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
     return await file(d.get_image())
 
-# GET request 3 - returns a rendered crash image list (PNG)
-@app.route('/api/v1/play', methods=['GET',])
+# POST request 3 - returns a rendered crash image list (PNG)
+@app.route('/api/v1/play', methods=['POST',])
 async def image_list(request):
     ''' crash image parses the crash record and returns a Image List '''
-    log.info("Handling '/api/v1/getCrashImage'")
+    log.info("Handling '/api/v1/play'")
 
     images = []
+    data = request.body.decode('utf-8')
 
     for i in range(-8000, 8000, 1000):
-        angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=i)
+        angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(data, custom_offset=i)
         d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
         images.append(d.get_image())
 
