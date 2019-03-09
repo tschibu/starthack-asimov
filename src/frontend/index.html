@@ -42,6 +42,8 @@
     </section>
 
     <script>
+        let fileContent = "";
+
         function dropHandler(ev) {
             ev.preventDefault();
 
@@ -60,12 +62,15 @@
                     var offset = document.getElementById("customOffset").value;
                     console.log("Using customOffset: " + offset);
                     requestCrashImage(event.target.result, offset);
+
+                    fileContent = event.target.result;
                 };
                 reader.readAsText(file);
             }
             var dropzone = document.getElementById("upload");
             dropzone.classList.remove("dragover");
         }
+
         function dragEnterHandler(ev) {
             ev.preventDefault();
             var dropzone = document.getElementById("upload");
@@ -137,6 +142,10 @@
             reader.readAsDataURL(response);
         }
 
+        function iterateOverImages(image_array) {
+            console.log(image_array);
+        }
+
         function customOffsetOnChange(ev) {
             ev.preventDefault();
 
@@ -149,7 +158,19 @@
             filename = document.getElementById("filename").value;
             if(filename != 'undefined' && filename !== "")
             {
-                console.log("Button Pressed");
+                var xhr = new XMLHttpRequest();
+
+                var url = "http://"+window.location.hostname+":2828/api/v1/play";
+
+                xhr.open("POST", url, true);
+                xhr.responseType = "blob";
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        setImage(JSON.parse(xhr.response).data);
+                    }
+                };
+                xhr.send(fileContent);
             }
         }
     </script>
