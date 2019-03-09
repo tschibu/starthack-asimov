@@ -35,31 +35,29 @@ class DataParser:
         if calibration:
             acceleration = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
 
-        # norm with oneG
-        oneG = pylist["oneG"]
+        acceleration = np.array(acceleration)
+
         damage_id = pylist["id"]
 
         #get rel_times for better handlin
-        rel_time = [x[0] for x in acceleration]
+        rel_time = acceleration[:, 0]
         #get x,y,z for better handling
-        rx = [x[1] for x in acceleration]
-        ry = [x[2] for x in acceleration]
-        rz = [x[3] for x in acceleration]
+        acceleration = acceleration[:, 1:]
 
 
         if(custom_offset!=0 and ( custom_offset <= np.max(rel_time) and custom_offset >= np.min(rel_time) )):#calculate custom offset force
             max_force_offset = custom_offset
-            max_force = self.__calculate_custom_offset_force(custom_offset, rx, ry, rz)
+            max_force = self.__calculate_custom_offset_force(custom_offset, acceleration)
             print(max_force)
         else: #calculate max offset
-            max_force_offset = self.__calculate_offset_max_force(rel_time, rx, ry, rz)
-            max_force = self.__calculate_max_force(rel_time, rx, ry, rz)
+            max_force_offset = self.__calculate_offset_max_force(rel_time, acceleration)
+            max_force = self.__calculate_max_force(rel_time, acceleration)
 
         crash_time = pylist["timestamp"] + max_force_offset
         crash_time = pd.to_datetime(crash_time, unit='s')
 
         # calculate angle
-        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, rx, ry)
+        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, acceleration[:, 0], acceleration[:, 1])
 
         return angle_impact, max_force, damage_id, crash_time, max_force_offset
 
@@ -118,6 +116,7 @@ class DataParser:
         :param calibration:     calibrations array like [ [x,y,z] , [x2,y2,z2], [x3,y3,z3] ]
         :return:                Virtual position array like [ [timestamp, virt_x, virt_y, virt_z], ...]
         """
+         
         for i_acc in acceleration:
             virt_x = calibration[0][0] * i_acc[1] + calibration[0][1] * i_acc[2] + calibration[0][2] * i_acc[3]
             i_acc[1] = virt_x
@@ -131,32 +130,30 @@ class DataParser:
         return acceleration
 
     def __norm_with_g(self, acceleration, one_g):
-        for n_acc in acceleration:
-            n_acc[1] = n_acc[1] / one_g
-            n_acc[2] = n_acc[2] / one_g
-            n_acc[3] = n_acc[3] / one_g
-        return acceleration
+        return acceleration / one_g
 
     # only force calc
-    def __calculate_forces(self, rx, ry, rz):
-        return [np.sqrt(x ** 2 + y ** 2 + z ** 2) for x, y, z in zip(rx, ry, rz)]
+    def __calculate_forces(self, acceleration):
+        forces = np.square(acceleration)
+        forces = np.sum(forces, axis=1)
+        return np.sqrt(forces)
 
     # not directly
-    def __calculate_max_force(self, rel_time, rx, ry, rz):
-        forces = self.__calculate_forces(rx, ry, rz)
+    def __calculate_max_force(self, rel_time, acceleration):
+        forces = self.__calculate_forces(acceleration)
         return np.max(forces)
 
-    def __calculate_offset_max_force(self, rel_time, rx, ry, rz):
-        forces = self.__calculate_forces(rx, ry, rz)
-        offset_max_force = forces.index(np.max(forces))  # index of max force value
+    def __calculate_offset_max_force(self, rel_time, acceleration):
+        forces = self.__calculate_forces(acceleration)
+        offset_max_force = np.argmax(forces)  # index of max force value
         return rel_time[offset_max_force]  # relative time at max force value
 
-    def __calculate_custom_offset_force(self, custom_offset, rx, ry, rz):
-        return [np.sqrt(rx.index[custom_offset] ** 2 + ry.index[custom_offset] ** 2 + rz.index[custom_offset]** 2)]
+    def __calculate_custom_offset_force(self, custom_offset, acceleration):
+        return np.sqrt(np.square(acceleration.index[custom_offset]).sum())
 
     def __calculate_angle(self, offset_maxforce_in_ms, predicted_impact_time, rel_time, rx, ry):
         try:
-            offset_index = rel_time.index(offset_maxforce_in_ms)
+            offset_index = np.where(rel_time == offset_maxforce_in_ms)
         except ValueError:
             return None
 
