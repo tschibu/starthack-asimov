@@ -9,13 +9,14 @@ logger = log_helper.get(False, "Data Parse")
 
 
 class DataParser:
-    def parse_input_data(self, file_path):
+    def parse_input_data(self, file_path, calibration=True):
         basejson = self.__read_json_from_filesystem(file_path)
         b64payload = self.__get_b64payload_from_basejson(basejson)
         encoded = self.__base64_decode(b64payload)
         pylist = self.__encoded_payload_to_list(encoded)
         pylist['data'] = self.__convert_timestamps(pylist['data'], pylist['timestamp'], pylist['referenceTime'])
-        pylist['data'] = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
+        if calibration:
+            pylist['data'] = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
         del pylist['timestamp']
         del pylist['referenceTime']
         del pylist['calibration']
