@@ -1,7 +1,10 @@
-FROM python:3.7.2-alpine3.9
+FROM python:3.7-slim
 
-#Install gcc, musl-dev & make (needed for building python wheels)
-RUN apk add gcc musl-dev make
+#Install libs and tools needed for building python wheels
+RUN apt-get update
+RUN yes | apt-get install build-essential
+RUN yes | apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+RUN yes | apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev
 
 #Install python dependencies
 COPY requirements.txt /app/
