@@ -8,7 +8,7 @@ import shutil
 
 class DamageImage:
     def __init__(self, angle_impact, max_force, damage_id, crash_time, max_force_offset=None):
-        self.log = logger.get(True, "DamageImage")
+        self.log = logger.get(False, "DamageImage")
         self.image = cv2.imread("images/car_big.png")
         self.image_grey = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         self.damage_id = damage_id
@@ -25,11 +25,6 @@ class DamageImage:
 
         self.image_rendered_path = "images_rendered/"
         self.image_rendered_file = str(damage_id) + "_car_rendered_at_" + str(self.off_set_in_milliseconds) + "ms.png"
-
-        self.log.info(
-            "Param x=" + str(self.x) + "; y=" + str(self.y) + "; radius=" + str(self.max_force) + "; angle=" + str(
-                self.angle_impact))
-        self.log.debug("Image-shape = " + str(self.image.shape))
 
     def __cut_car(self):
         length = 1000
@@ -85,7 +80,6 @@ class DamageImage:
     def __draw_circle(self):
         radius = self.__dynamic_damage_calc(self.max_force)
         cv2.circle(self.image, (self.car_point_x, self.car_point_y), radius, (0, 0, 255), 2)
-        self.log.debug("radius=" + str(radius))
         cv2.circle(self.image, (self.car_point_x, self.car_point_y), 10, (91, 187, 155), -1)
 
     def __add_text(self, off_set_in_milliseconds):
@@ -101,7 +95,6 @@ class DamageImage:
                     font_scale,
                     font_color,
                     line_type)
-        self.log.info("add off_set=" + str(off_set_in_milliseconds) + " to the image.")
 
         bottom_left_corner_of_text = (10, 100)
         cv2.putText(self.image, "crash identifier = " + str(self.damage_id) + " - damage time = " + str(self.crash_time),
@@ -110,7 +103,6 @@ class DamageImage:
                     font_scale,
                     font_color,
                     line_type)
-        self.log.info("crash identifier = " + str(self.damage_id) + " - damage time = " + str(self.crash_time))
 
     def __dynamic_damage_calc(self, damage):
         """
@@ -131,7 +123,7 @@ class DamageImage:
         """
         write the generated image to the rendered file folder.
         """
-        cv2.imwrite(self.image_rendered_file, self.image)
+        cv2.imwrite("images/"+self.image_rendered_file, self.image)
 
     def get_image(self):
         """
@@ -139,15 +131,13 @@ class DamageImage:
         """
         self.__draw()
         self.__write_image()
-        return self.image_rendered_file
+        return "images/"+self.image_rendered_file
 
     def remove_all_rendered_image(self):
         """
         delete all rendered files on the system.
         """
         files_rendered = os.listdir(self.image_rendered_path)
-        for file in files_rendered:
-            self.log.debug("Delete file " + str(self.image_rendered_path) + "/" + str(file) + " on system.")
 
         shutil.rmtree(self.image_rendered_path, ignore_errors=True)
 
