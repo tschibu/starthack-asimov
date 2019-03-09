@@ -1,6 +1,7 @@
 import numpy as np
 import base64
 import json
+import math
 
 from helper import log_helper
 #Definde Logger without Filehandle
@@ -9,18 +10,56 @@ logger = log_helper.get(False, "Data Parse")
 
 
 class DataParser:
-    def parse_input_data(self, file_path, calibration=True):
+    """Gibt Winkel und maxforce zurück
+
+    Arguments:
+        file_path - Pfad zum JSON
+        direct_json - direkt JSON übergeben als alternative {default: False}
+    
+    Returns:
+        [angle_impatc, max_force_offset, max_force, forces_list] -- [winkel in Grad, Offset zum Max Force in ms, Max Force relativ zu G, Liste allte Kräfte mit timestamp]
+    """
+
+    def parse_input_data(self, file_path, direct_json=False, calibration=True):
         basejson = self.__read_json_from_filesystem(file_path)
         b64payload = self.__get_b64payload_from_basejson(basejson)
+        if(direct_json != False):
+            #overwrite with passed down json
+            b64payload = self.__get_b64payload_from_basejson(direct_json)
+
         encoded = self.__base64_decode(b64payload)
+        #convert to python list
         pylist = self.__encoded_payload_to_list(encoded)
-        pylist['data'] = self.__convert_timestamps(pylist['data'], pylist['timestamp'], pylist['referenceTime'])
+
+        predicted_impact_time = pylist["data"][pylist["pos"]][0]
+
+        #pylist['data'] = self.__convert_timestamps(pylist['data'], pylist['timestamp'], pylist['referenceTime'])
+
+        acceleration = pylist["data"]
+        acceleration = sorted(acceleration, key=lambda d: d[0])
+
+        #Do the calibration
         if calibration:
-            pylist['data'] = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
-        del pylist['timestamp']
-        del pylist['referenceTime']
-        del pylist['calibration']
-        return pylist
+            acceleration= self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
+        
+        #norm with oneG
+        oneG = pylist["oneG"]
+
+        rel_time = [x[0] for x in acceleration]
+        rx = [x[1] for x in acceleration]
+        ry = [x[2] for x in acceleration]
+        rz = [x[3] for x in acceleration]
+        #calculate forces
+        forces = self.__calculate_forces(rx,ry,rz)
+        max_force_offset = self.__calculate_offset_max_force(rel_time, rx,ry,rz)
+        max_force = self.__calculate_max_force(rel_time, rx,ry,rz)
+
+        #calculate angle
+        angle_impatc = self.__calculate_angle(max_force_offset, predicted_impact_time,rel_time, rx,ry)
+
+        forces_list = [rel_time,forces]
+    
+        return angle_impatc, max_force_offset, max_force, forces_list
 
 
     def __base64_decode(self, base64_string):
@@ -60,12 +99,7 @@ class DataParser:
         :param calibration:     calibrations array like [ [x,y,z] , [x2,y2,z2], [x3,y3,z3] ]
         :return:                Virtual position array like [ [timestamp, virt_x, virt_y, virt_z], ...]
         """
-        #acceleration: Sensor value
-        #calibration:calibration known at crash
-        #Use the calibration matrix to potentially compute the virtual x,y,z values
-        # x = calibration[0][0] * rx + calibration[0][1] * ry + calibration [0][2] * rz
-        #also, rx,ry,rz sind nur beschleunigungen, mit der Kalibration erhält man die Position
-
+        #korrekt
         for i_acc in acceleration:
             virt_x = calibration[0][0] * i_acc[1] + calibration[0][1] * i_acc[2] + calibration[0][2] * i_acc[3]
             i_acc[1] = virt_x
@@ -81,6 +115,43 @@ class DataParser:
 
         return acceleration
 
+    
+    def __norm_with_g(self, acceleration,  oneG):
+        for n_acc in acceleration:
+            n_acc[1] = n_acc[1] / oneG 
+            n_acc[2] = n_acc[2] / oneG 
+            n_acc[3] = n_acc[3] / oneG 
+        return acceleration
+
+
+    #only force calc
+    def __calculate_forces(self, rx, ry, rz):
+        return [np.sqrt(x**2 + y**2 + z**2) for x, y, z in zip(rx,ry,rz)]
+
+
+
+    #not directly
+    def __calculate_max_force(self, rel_time, rx,ry,rz):
+        forces = self.__calculate_forces(rx,ry,rz)
+        return np.max(forces)
+
+
+    def __calculate_offset_max_force(self, rel_time, rx,ry,rz):
+        forces = self.__calculate_forces(rx,ry,rz)
+        offset_max_force = forces.index(np.max(forces)) #liefert den index an dem force maximal ist
+        return rel_time[offset_max_force] #liefer rel time (offset) an der force maximal ist
+
+        
+    def __calculate_angle(self, offset_maxforce_in_ms, predicted_impact_time, rel_time, rx, ry):
+        try:
+            offset_index = rel_time.index(offset_maxforce_in_ms)
+        except ValueError:
+            return None
+
+        if offset_maxforce_in_ms - predicted_impact_time <= 0:
+            return None
+
+        return 180 - math.degrees(np.arctan2(ry[offset_index], rx[offset_index]))
 
     def __ringbuffer2array(self, ringbuffer):
         """
@@ -104,6 +175,7 @@ class DataParser:
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
 
-dp = DataParser()
-result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\2.json')
-print(result)
+#testing
+#dp = DataParser()
+#result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json')
+#print(result)
