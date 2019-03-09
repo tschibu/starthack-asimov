@@ -4,20 +4,22 @@ import numpy as np
 import os
 
 class Drawer:
-    def __init__(self, x, y, radius, angle, off_set_in_milliseconds=None):
+    def __init__(self, angle_impact, max_force, damage_id, crash_time, max_force_offset=None):
         self.log = logger.get(True, "Drawer")
         self.image = cv2.imread("images/car_big.png")
         self.image_grey = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-        self.x = x
-        self.y = y
-        self.radius = radius
-        self.angle = angle
-        self.off_set_in_milliseconds = off_set_in_milliseconds
+        self.damage_id = damage_id
+        self.crash_time = crash_time
+        self.x = 1300
+        self.y = 550
+        self.max_force = max_force
+        self.angle_impact = angle_impact
+        self.off_set_in_milliseconds = max_force_offset
 
         self.image_path = "images/car_rendered_at_" + str(self.off_set_in_milliseconds) + "_ms.png"
         self.log.info(
-            "Param x=" + str(self.x) + "; y=" + str(self.y) + "; radius=" + str(self.radius) + "; angle=" + str(
-                self.angle))
+            "Param x=" + str(self.x) + "; y=" + str(self.y) + "; radius=" + str(self.max_force) + "; angle=" + str(
+                self.angle_impact))
         self.log.debug("Image-shape = " + str(self.image.shape))
 
     def __cut_car(self):
@@ -41,7 +43,9 @@ class Drawer:
         cv2.arrowedLine(self.image, (1457, 1208), (self.x, self.y), (0, 0, 255), 4)
 
     def __draw_circle(self):
-        cv2.circle(self.image, (self.x, self.y), self.radius, (0, 0, 255), 2)
+        radius = self.__dynamic_damage_calc(self.max_force)
+        cv2.circle(self.image, (self.x, self.y), radius, (0, 0, 255), 2)
+        self.log.debug("radius=" + str(radius))
         cv2.circle(self.image, (self.x, self.y), 5, (0, 0, 0), -1)
 
     def __add_text(self, off_set_in_milliseconds):
@@ -58,6 +62,27 @@ class Drawer:
                     font_color,
                     line_type)
         self.log.info("add off_set=" + str(off_set_in_milliseconds) + " to the image.")
+
+        bottom_left_corner_of_text = (10, 100)
+        cv2.putText(self.image, "crash identifier = " + str(self.damage_id) + " - damage time = " + str(self.crash_time),
+                    bottom_left_corner_of_text,
+                    font,
+                    font_scale,
+                    font_color,
+                    line_type)
+        self.log.info("crash identifier = " + str(self.damage_id) + " - damage time = " + str(self.crash_time))
+
+    def __dynamic_damage_calc(self, damage):
+        max_damage = 60000
+        min_damage = 8000
+
+        if damage >= max_damage:
+            damage = max_damage - 1
+
+        if damage <= min_damage:
+            damage = min_damage
+
+        return int((damage / max_damage) * 150)
 
     def __write_image(self):
         cv2.imwrite(self.image_path, self.image)
@@ -88,7 +113,7 @@ class Drawer:
 
 
 if __name__ == "__main__":
-    drawer = Drawer(1300, 550, 60, 180, 6110)
+    drawer = Drawer(132.19008793270834, 21380.161292511744, 35, "2018-12-25 10:47:39", 5339896)
     drawer.show_image()
     #print(drawer.get_image())
     # drawer.remove_image()
