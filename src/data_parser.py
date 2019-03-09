@@ -26,6 +26,7 @@ class DataParser:
         #convert relative times from data and from gps data
         #ToDo
 
+        #return finishes json with real time and xyz
         return payload_arr_done
 
     def __base64_decode(self, base64_string):
@@ -97,17 +98,6 @@ class DataParser:
             i_acc[3] = virt_z
             logger.info("z: %d",virt_z)
 
-
-
-
-        #Convert to Virtual Positon
-       # virt_x = calibration[0][0] * acceleration[0] + calibration[0][1] * acceleration[1] + calibration[0][2] * acceleration[2]
-      #  virt_y = calibration[1][0] * acceleration[0] + calibration[1][1] * acceleration[1] + calibration[1][2] * acceleration[2]
-       # virt_z = calibration[2][0] * acceleration[0] + calibration[2][1] * acceleration[1] + calibration[2][2] * acceleration[2]
-       # logger.info("x: %d",virt_x)
-       # logger.info("y: %d",virt_y)
-       # logger.info("z: %d",virt_z)
-
         return acceleration
 
 
@@ -134,17 +124,36 @@ class DataParser:
         return json.loads(encodedjsonstring)
 
 ##Example Code
-basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\encoded_b64payload_small.json')
+#basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\encoded_b64payload_small.json')
+basejson = DataParser._DataParser__read_json_from_filesystem(None, r'C:\hslu\git\starthack-asimov\src\data\1.json')
+
 b64payload = DataParser._DataParser__get_b64payload_from_basejson(None, basejson)
 encoded = DataParser._DataParser__base64_decode(None, b64payload)
 #now convert the json encoded to a numpy array
 pylist = DataParser._DataParser__encoded_payload_to_list(None, encoded)
-#Acces the array with indices or strings, yai
-#print(pylist["id"])
 
-#DataParser._DataParser__get_virtual_xyz(None,)
-#get only data
-#print(pylist["calibration"])
 acctest = DataParser._DataParser__get_virtual_xyz(None,pylist["data"], pylist["calibration"])
 print(acctest)
-#array = np.array(pylist["data"])
+
+import matplotlib.pyplot as plt  
+#x = np.linspace(-10, 9, 20)
+#y = x ** 3
+
+#get every x and y into array
+
+x_plt = []
+y_plt = []
+for i in acctest:
+    x_plt.append(i[1])
+    y_plt.append(i[2])
+
+
+
+print(x_plt)
+print (y_plt)
+
+plt.scatter(x_plt, y_plt)  
+plt.xlabel('X axis')  
+plt.ylabel('Y axis')  
+plt.title('Cube Function')  
+plt.show()  
