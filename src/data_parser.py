@@ -1,13 +1,13 @@
-import os
 import numpy as np
 import base64
 import json
 import math
+import datetime
+import pandas as pd
 
 from helper import log_helper
 #Definde Logger without Filehandle
 logger = log_helper.get(False, "Data Parse")
-
 
 
 class DataParser:
@@ -16,14 +16,17 @@ class DataParser:
     Arguments:
         file_path - Pfad zum JSON
         direct_json - direkt JSON übergeben als alternative {default: False}
-
+    
     Returns:
-        [angle_impatc, max_force_offset, max_force, forces_list] -- [winkel in Grad, Offset zum Max Force in ms, Max Force relativ zu G, Liste allte Kräfte mit timestamp]
+        [angle_impatc, max_force_offset, max_force, damage_id, crash_time] -- [winkel in Grad, Offset zum Max Force in ms, Max Force relativ zu G, Liste allte Kräfte mit timestamp]
     """
 
-    def parse_input_data(self, file_path, calibration=True):
+    def parse_input_data(self, file_path, direct_json=False, calibration=True):
         basejson = self.__read_json_from_filesystem(file_path)
         b64payload = self.__get_b64payload_from_basejson(basejson)
+        if(direct_json != False):
+            #overwrite with passed down json
+            b64payload = self.__get_b64payload_from_basejson(direct_json)
 
         encoded = self.__base64_decode(b64payload)
         #convert to python list
@@ -39,9 +42,10 @@ class DataParser:
         #Do the calibration
         if calibration:
             acceleration= self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
-
+        
         #norm with oneG
         oneG = pylist["oneG"]
+        damage_id = pylist["id"]
 
         rel_time = [x[0] for x in acceleration]
         rx = [x[1] for x in acceleration]
@@ -52,12 +56,13 @@ class DataParser:
         max_force_offset = self.__calculate_offset_max_force(rel_time, rx,ry,rz)
         max_force = self.__calculate_max_force(rel_time, rx,ry,rz)
 
+        crash_time = pylist["timestamp"] + max_force_offset
+        crash_time= pd.to_datetime(crash_time, unit='s')
+
         #calculate angle
-        angle_impatc = self.__calculate_angle(max_force_offset, predicted_impact_time,rel_time, rx,ry)
-
-        forces_list = [rel_time,forces]
-
-        return (angle_impatc, max_force_offset, max_force, forces_list)
+        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time,rel_time, rx,ry)
+    
+        return angle_impact, max_force, damage_id, crash_time, max_force_offset
 
 
     def __base64_decode(self, base64_string):
@@ -113,12 +118,12 @@ class DataParser:
 
         return acceleration
 
-
+    
     def __norm_with_g(self, acceleration,  oneG):
         for n_acc in acceleration:
-            n_acc[1] = n_acc[1] / oneG
-            n_acc[2] = n_acc[2] / oneG
-            n_acc[3] = n_acc[3] / oneG
+            n_acc[1] = n_acc[1] / oneG 
+            n_acc[2] = n_acc[2] / oneG 
+            n_acc[3] = n_acc[3] / oneG 
         return acceleration
 
 
@@ -139,7 +144,7 @@ class DataParser:
         offset_max_force = forces.index(np.max(forces)) #liefert den index an dem force maximal ist
         return rel_time[offset_max_force] #liefer rel time (offset) an der force maximal ist
 
-
+        
     def __calculate_angle(self, offset_maxforce_in_ms, predicted_impact_time, rel_time, rx, ry):
         try:
             offset_index = rel_time.index(offset_maxforce_in_ms)
@@ -163,24 +168,17 @@ class DataParser:
         return rb[rb[:, 0].argsort()]
 
     def __read_json_from_filesystem(self, path2file):
-        if os.path.exists(path2file):
-            with open(path2file) as json_file:
-                data = json.load(json_file)
-                return data
-
-        if type(path2file) is str:
-            return json.loads(path2file) #json was passed as str
-
-        return None
+        with open(path2file) as json_file:
+            data = json.load(json_file)
+            return data
 
     def __get_b64payload_from_basejson(self, basejson):
-        print(type(basejson))
         return basejson[0]['payload']['b64_payload']
-
+    
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
 
-#testing
+
 #dp = DataParser()
 #result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json')
 #print(result)
