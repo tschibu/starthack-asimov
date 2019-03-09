@@ -68,14 +68,14 @@ class DamageImage:
         self.car_point_y = np.nonzero(one_point)[0][0]
 
     def __draw(self):
-        if self.off_set_in_milliseconds is not None:
-            self.__add_text(self.off_set_in_milliseconds)
-
         # add arrow and circle
         self.__cut_car()
 
         self.__draw_arrow()
         self.__draw_circle()
+
+        if self.off_set_in_milliseconds is not None:
+            self.__add_text(self.off_set_in_milliseconds)
 
 
     def __draw_arrow(self):

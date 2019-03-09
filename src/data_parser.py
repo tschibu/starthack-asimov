@@ -9,25 +9,22 @@ import pandas as pd
 import helper.log_helper as log_helper
 
 # Define Logger without file handle
-logger = log_helper.get(False, "Data Parse")
+logger = log_helper.get(True, "Data Parse")
 
 
 class DataParser:
-    def parse_input_data(self, file_path, calibration=True):
+    def parse_input_data(self, file_path, calibration=True, custom_offset=0):
         """
         Parses a JSON
         :param file_path:   path to the JSON file
         :param direct_json: pass JSON directly
         :param calibration: if True, acceleration data will be calibrated
+        :param custom_offset: returns the angle,offset,force etc. for the specified offset in ms {default: 0 = max force}
         :return:    (angle in degrees, offset to max force value in ms, relative max force, list of all force values)
         """
         base_json = self.__read_json_from_filesystem(file_path)
         b64payload = self.__get_b64payload_from_basejson(base_json)
-
-        b64payload = self.__get_b64payload_from_basejson(base_json)
-
         encoded = self.__base64_decode(b64payload)
-        # convert to python list
         pylist = self.__encoded_payload_to_list(encoded)
 
         predicted_impact_time = pylist["data"][pylist["pos"]][0]
@@ -41,16 +38,24 @@ class DataParser:
         # norm with oneG
         oneG = pylist["oneG"]
         damage_id = pylist["id"]
-
+      
+        #get rel_times for better handlin
         rel_time = [x[0] for x in acceleration]
+        #get x,y,z for better handling
         rx = [x[1] for x in acceleration]
         ry = [x[2] for x in acceleration]
         rz = [x[3] for x in acceleration]
 
-        # calculate forces
-        forces = self.__calculate_forces(rx, ry, rz)
-        max_force_offset = self.__calculate_offset_max_force(rel_time, rx, ry, rz)
-        max_force = self.__calculate_max_force(rel_time, rx, ry, rz)
+
+        if(custom_offset!=0 and ( custom_offset <= np.max(rel_time) and custom_offset >= np.min(rel_time) )):#calculate custom offset force
+            logger.info("Custom Offset selected: %i", custom_offset)
+            max_force_offset = custom_offset
+            max_force = self.__calculate_custom_offset_force(custom_offset, rx, ry, rz)
+            print(max_force)
+        else: #calculate max offset
+            logger.info("Max Offset is calculated (no custom_offset or out of bound)")
+            max_force_offset = self.__calculate_offset_max_force(rel_time, rx, ry, rz)
+            max_force = self.__calculate_max_force(rel_time, rx, ry, rz)
 
         crash_time = pylist["timestamp"] + max_force_offset
         crash_time = pd.to_datetime(crash_time, unit='s')
@@ -59,6 +64,26 @@ class DataParser:
         angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, rx, ry)
 
         return angle_impact, max_force, damage_id, crash_time, max_force_offset
+
+    def get_rel_times(self, jsonfile):
+        """Liefert die Rel-Timestamps des Datensatzes zurück
+
+        Arguments:
+            json {[type]} -- Crash Json
+        
+        Return:
+            list -- rel-times
+        """
+        base_json = self.__read_json_from_filesystem(jsonfile)
+        b64payload = self.__get_b64payload_from_basejson(base_json)
+        encoded = self.__base64_decode(b64payload)
+        pylist = self.__encoded_payload_to_list(encoded)
+        acceleration = pylist["data"]
+        acceleration = sorted(acceleration, key=lambda d: d[0])
+        acceleration = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
+        rel_time = [x[0] for x in acceleration]
+        return rel_time
+
 
     def __base64_decode(self, base64_string):
         """
@@ -129,6 +154,9 @@ class DataParser:
         offset_max_force = forces.index(np.max(forces))  # index of max force value
         return rel_time[offset_max_force]  # relative time at max force value
 
+    def __calculate_custom_offset_force(self, custom_offset, rx, ry, rz):
+        return [np.sqrt(rx.index[custom_offset] ** 2 + ry.index[custom_offset] ** 2 + rz.index[custom_offset]** 2)]
+        
     def __calculate_angle(self, offset_maxforce_in_ms, predicted_impact_time, rel_time, rx, ry):
         try:
             offset_index = rel_time.index(offset_maxforce_in_ms)
@@ -168,6 +196,6 @@ class DataParser:
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
 
-# dp = DataParser()
-# result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json')
-# print(result)
+dp = DataParser()
+result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json', True, custom_offset=4624111)
+print(result)
