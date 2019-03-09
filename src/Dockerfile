@@ -12,6 +12,7 @@ RUN cd /app && pip install -r requirements.txt
 
 #Copy application to /app
 COPY data/* /app/data/
+COPY frontend/* /app/frontend/
 COPY helper/* /app/helper/
 COPY images/* /app/images/
 COPY *.py /app/

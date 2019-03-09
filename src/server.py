@@ -28,9 +28,16 @@ def signal_int_handler(sig, frame):
     sys.exit(0)
 
 # Routes
+# GET - index.html
 @app.route('/', methods=['GET'],)
 async def index(request):
-    return file('/frontend/index.html')
+    return await file(os.path.join(os.path.dirname(__file__), 'frontend/index.html'))
+
+# GET - favicon.ico
+@app.route('/favicon.ico', methods=['GET'],)
+async def favicon(request):
+    return await file(os.path.join(os.path.dirname(__file__), 'frontend/favicon.ico'))
+
 
 # POST request 1 - returns JSON {"impactAngle": degrees, "offsetMaximumForce": millisecond}
 @app.route('/api/v1/getCrashInfo', methods=['POST',])
@@ -50,4 +57,5 @@ async def crash_image(request):
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_int_handler)
     ##app.add_task(task(app))
+    app.static('/frontend', './frontend')
     app.run(host=config.host, port=config.port)
