@@ -53,6 +53,7 @@ async def crash_info(request):
 async def crash_image(request):
     ''' crash image parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashImage'")
+    angle, max_force_offset, max_force, forces_list = DataParser().parse_input_data(request.body.decode('utf8'))
     d = Drawer(1300, 550, 60, 180, 6110)
     return await file(d.get_image())
 
