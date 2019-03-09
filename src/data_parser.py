@@ -19,9 +19,12 @@ class DataParser:
         # the json into an array structure
         payload_arr  = json.loads(payload)
 
-        #conver realtive times from data and from gps data
+        #1 order ringbuffer
+        #2 add relative time to data
+        #3 add virtual xyz to data
+
+        #convert relative times from data and from gps data
         #ToDo
-        #get virtual xyz into payload
 
         return payload_arr_done
 
@@ -68,9 +71,9 @@ class DataParser:
         """
         Calibrates virutal x,y,z data from the acceleration and calibration (0 used)
 
-        :param acceleration:    array like [x,y,z]
-        :param calibration:     array like [ [x,y,z] , [x2,y2,z2], [x3,y3,z3] ]
-        :return:                Virtual position array like [virt_x, virt_y, virt_z]
+        :param acceleration:    data array with [ [timestamp, x, y, z], [...], ...]
+        :param calibration:     calibrations array like [ [x,y,z] , [x2,y2,z2], [x3,y3,z3] ] 
+        :return:                Virtual position array like [ [timestamp, virt_x, virt_y, virt_z], ...]
         """
         #acceleration: Sensor value
         #calibration:calibration known at crash
@@ -78,24 +81,34 @@ class DataParser:
         # x = calibration[0][0] * rx + calibration[0][1] * ry + calibration [0][2] * rz
         #also, rx,ry,rz sind nur beschleunigungen, mit der Kalibration erhält man die Position
 
-        #Check if arrays correct
-        if(len(acceleration) !=3 | len(calibration)!=3 ):
-            logger.error("Acceleration oder Calibration Data incorrect (not size 3)")
-            return
-        #Check sub array calibration
-        for i in range (3):
-            if(len(calibration[i]) != 3):
-                logger.error("Sub item %i in Calibration is incorrect", i)
+        for i_acc in acceleration:
+
+            print(i_acc[0])
+
+            virt_x = calibration[0][0] * i_acc[1] + calibration[0][1] * i_acc[2] + calibration[0][2] * i_acc[3]
+            i_acc[1] = virt_x
+            logger.info("x: %d",virt_x)
+
+            virt_y = calibration[1][0] * i_acc[1] + calibration[1][1] * i_acc[2]  + calibration[1][2] * i_acc[3]
+            i_acc[2] = virt_y
+            logger.info("y: %d",virt_y)
+
+            virt_z = calibration[2][0] * i_acc[1] + calibration[2][1] * i_acc[2]  + calibration[2][2] * i_acc[3]
+            i_acc[3] = virt_z
+            logger.info("z: %d",virt_z)
+
+
+
 
         #Convert to Virtual Positon
-        virt_x = calibration[0][0] * acceleration[0] + calibration[0][1] * acceleration[1] + calibration[0][2] * acceleration[2]
-        virt_y = calibration[1][0] * acceleration[0] + calibration[1][1] * acceleration[1] + calibration[1][2] * acceleration[2]
-        virt_z = calibration[2][0] * acceleration[0] + calibration[2][1] * acceleration[1] + calibration[2][2] * acceleration[2]
-        logger.info("x: %d",virt_x)
-        logger.info("y: %d",virt_y)
-        logger.info("z: %d",virt_z)
+       # virt_x = calibration[0][0] * acceleration[0] + calibration[0][1] * acceleration[1] + calibration[0][2] * acceleration[2]
+      #  virt_y = calibration[1][0] * acceleration[0] + calibration[1][1] * acceleration[1] + calibration[1][2] * acceleration[2]
+       # virt_z = calibration[2][0] * acceleration[0] + calibration[2][1] * acceleration[1] + calibration[2][2] * acceleration[2]
+       # logger.info("x: %d",virt_x)
+       # logger.info("y: %d",virt_y)
+       # logger.info("z: %d",virt_z)
 
-        return [virt_x, virt_y, virt_z]
+        return acceleration
 
 
     def __ringbuffer2array(self, ringbuffer):
@@ -127,4 +140,11 @@ encoded = DataParser._DataParser__base64_decode(None, b64payload)
 #now convert the json encoded to a numpy array
 pylist = DataParser._DataParser__encoded_payload_to_list(None, encoded)
 #Acces the array with indices or strings, yai
-print(pylist["id"])
+#print(pylist["id"])
+
+#DataParser._DataParser__get_virtual_xyz(None,)
+#get only data
+#print(pylist["calibration"])
+acctest = DataParser._DataParser__get_virtual_xyz(None,pylist["data"], pylist["calibration"])
+print(acctest)
+#array = np.array(pylist["data"])
