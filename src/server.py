@@ -61,4 +61,4 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_int_handler)
     ##app.add_task(task(app))
     app.static('/frontend', './frontend')
-    app.run(host=config.host, port=config.port)
+    app.run(host=config.host, port=config.port, debug=False, access_log=False)

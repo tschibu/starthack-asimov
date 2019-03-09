@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import base64
 import json
@@ -179,9 +180,15 @@ class DataParser:
         return rb[rb[:, 0].argsort()]
 
     def __read_json_from_filesystem(self, path2file):
-        with open(path2file) as json_file:
-            data = json.load(json_file)
-            return data
+        if os.path.exists(path2file):
+            with open(path2file) as json_file:
+                data = json.load(json_file)
+                return data
+
+        if type(path2file) is str:
+            return json.loads(path2file)
+
+        return None
 
     def __get_b64payload_from_basejson(self, base_json):
         return base_json[0]['payload']['b64_payload']
