@@ -7,25 +7,31 @@ class Drawer:
     def __init__(self, x, y, radius, angle, off_set_in_milliseconds=None):
         self.log = logger.get(True, "Drawer")
         self.image = cv2.imread("images/car_big.png")
+        self.image_grey = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         self.x = x
         self.y = y
         self.radius = radius
         self.angle = angle
         self.off_set_in_milliseconds = off_set_in_milliseconds
 
-        self.image_path = "images/car_rendered_at_" + self.off_set_in_milliseconds + "_ms.png"
+        self.image_path = "images/car_rendered_at_" + str(self.off_set_in_milliseconds) + "_ms.png"
         self.log.info(
             "Param x=" + str(self.x) + "; y=" + str(self.y) + "; radius=" + str(self.radius) + "; angle=" + str(
                 self.angle))
         self.log.debug("Image-shape = " + str(self.image.shape))
 
     def __cut_car(self):
-        print("TODO")
-        # TODO: u need to do this
+        ret, thresh = cv2.threshold(self.image_grey, 127, 255, 0)
+        im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(self.image, contours, 1, (0, 255, 0), 2)
 
     def __draw(self):
         if self.off_set_in_milliseconds is not None:
             self.__add_text(self.off_set_in_milliseconds)
+
+        self.__cut_car()
+
+        # add arrow and circle
         self.__draw_arrow()
         self.__draw_circle()
 
@@ -36,6 +42,7 @@ class Drawer:
 
     def __draw_circle(self):
         cv2.circle(self.image, (self.x, self.y), self.radius, (0, 0, 255), 2)
+        cv2.circle(self.image, (self.x, self.y), 5, (0, 0, 0), -1)
 
     def __add_text(self, off_set_in_milliseconds):
         font = cv2.FONT_HERSHEY_SIMPLEX
