@@ -21,7 +21,7 @@ from data_parser import DataParser
 
 app = Sanic()
 app.name = "CrashSimulationAsimov"
-log = logger.get(True, "Server")
+log = logger.get(False, "Server")
 
 # SIGINT handler (when pressing Ctrl+C)
 def signal_int_handler(sig, frame):
@@ -75,7 +75,7 @@ async def image_list(request):
 
     images = []
 
-    for i in range(-8000, 8000, 100):
+    for i in range(-8000, 8000, 1000):
         angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=i)
         d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
         images.append(d.get_image())
@@ -86,4 +86,5 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_int_handler)
     ##app.add_task(task(app))
     app.static('/frontend', './frontend')
+    app.static('/images', './images')
     app.run(host=config.host, port=config.port, debug=False, access_log=False)

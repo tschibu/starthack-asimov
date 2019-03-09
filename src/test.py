@@ -29,7 +29,7 @@ if __name__ == "__main__":
     parser.add_argument('-d','--data', help='json file to use', required=True)
     args = vars(parser.parse_args())
 
-    log = logger.get(True, "TestUtility")
+    log = logger.get(False, "TestUtility")
     if args['crashInfo'] == "True":
         log.info("Executing crashInfo test with: " + args['data'])
         test_crashinfo(args['data'])

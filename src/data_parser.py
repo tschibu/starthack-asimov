@@ -9,7 +9,7 @@ import pandas as pd
 import helper.log_helper as log_helper
 
 # Define Logger without file handle
-logger = log_helper.get(True, "Data Parse")
+logger = log_helper.get(False, "Data Parse")
 
 
 class DataParser:
@@ -38,7 +38,7 @@ class DataParser:
         # norm with oneG
         oneG = pylist["oneG"]
         damage_id = pylist["id"]
-      
+
         #get rel_times for better handlin
         rel_time = [x[0] for x in acceleration]
         #get x,y,z for better handling
@@ -48,12 +48,10 @@ class DataParser:
 
 
         if(custom_offset!=0 and ( custom_offset <= np.max(rel_time) and custom_offset >= np.min(rel_time) )):#calculate custom offset force
-            logger.info("Custom Offset selected: %i", custom_offset)
             max_force_offset = custom_offset
             max_force = self.__calculate_custom_offset_force(custom_offset, rx, ry, rz)
             print(max_force)
         else: #calculate max offset
-            logger.info("Max Offset is calculated (no custom_offset or out of bound)")
             max_force_offset = self.__calculate_offset_max_force(rel_time, rx, ry, rz)
             max_force = self.__calculate_max_force(rel_time, rx, ry, rz)
 
@@ -70,7 +68,7 @@ class DataParser:
 
         Arguments:
             json {[type]} -- Crash Json
-        
+
         Return:
             list -- rel-times
         """
@@ -91,7 +89,6 @@ class DataParser:
         :param base64_string:    base64 string
         :return:                 decoded character string
         """
-        logger.info("Base64 Encoding string")
 
         # Decode string
         decoded_string = base64.b64decode(base64_string)
@@ -156,7 +153,7 @@ class DataParser:
 
     def __calculate_custom_offset_force(self, custom_offset, rx, ry, rz):
         return [np.sqrt(rx.index[custom_offset] ** 2 + ry.index[custom_offset] ** 2 + rz.index[custom_offset]** 2)]
-        
+
     def __calculate_angle(self, offset_maxforce_in_ms, predicted_impact_time, rel_time, rx, ry):
         try:
             offset_index = rel_time.index(offset_maxforce_in_ms)
