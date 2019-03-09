@@ -15,7 +15,10 @@ class DataParser:
         encoded = self.__base64_decode(b64payload)
         pylist = self.__encoded_payload_to_list(encoded)
         pylist['data'] = self.__convert_timestamps(pylist['data'], pylist['timestamp'], pylist['referenceTime'])
-        pylist = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
+        pylist['data'] = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
+        del pylist['timestamp']
+        del pylist['referenceTime']
+        del pylist['calibration']
         return pylist
 
 
@@ -63,20 +66,17 @@ class DataParser:
         #also, rx,ry,rz sind nur beschleunigungen, mit der Kalibration erhält man die Position
 
         for i_acc in acceleration:
-
-            print(i_acc[0])
-
             virt_x = calibration[0][0] * i_acc[1] + calibration[0][1] * i_acc[2] + calibration[0][2] * i_acc[3]
             i_acc[1] = virt_x
-            logger.info("x: %d",virt_x)
+            #logger.info("x: %d",virt_x)
 
             virt_y = calibration[1][0] * i_acc[1] + calibration[1][1] * i_acc[2]  + calibration[1][2] * i_acc[3]
             i_acc[2] = virt_y
-            logger.info("y: %d",virt_y)
+            #logger.info("y: %d",virt_y)
 
             virt_z = calibration[2][0] * i_acc[1] + calibration[2][1] * i_acc[2]  + calibration[2][2] * i_acc[3]
             i_acc[3] = virt_z
-            logger.info("z: %d",virt_z)
+            #logger.info("z: %d",virt_z)
 
         return acceleration
 
