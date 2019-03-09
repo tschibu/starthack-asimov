@@ -25,12 +25,13 @@
         <h5 id="offsetMaximumForce"></h5>
     </section>
 
-    <section class="image">
-
+    <section>
+        <div id="image">
+        </div>
     </section>
 
     <section class="upload">
-        <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <div class="dropZone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
             <p>Drag one JSON crash report file to this Drop Zone ...</p>
         </div>
     </section>
@@ -47,7 +48,7 @@
                 setFileName(file.name);
                 setValues("undefined", "undefined");
 
-                getText(file, requestCrashInfo);
+                getText(file, [requestCrashInfo, requestCrashImage]);
             }
         }
 
@@ -56,7 +57,6 @@
         }
 
         function requestCrashInfo(json_string) {
-            console.log("requestCrashInfo: " + json_string);
             var xhr = new XMLHttpRequest();
 
             var url = "http://"+window.location.hostname+":2828/api/v1/getCrashInfo";
@@ -73,10 +73,27 @@
             xhr.send(json_string);
         }
 
+        function requestCrashImage(json_string) {
+            var xhr = new XMLHttpRequest();
+
+            var url = "http://"+window.location.hostname+":2828/api/v1/getCrashImage";
+            xhr.open("POST", url, true);
+            xhr.responseType = "blob";
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    setImage(xhr.response);
+                }
+            };
+            xhr.send(json_string);
+        }
+
         function getText(file, callback) {
             reader = new FileReader();
             reader.onload = function (event) {
-                callback(event.target.result);
+                [...callback].forEach(cb => {
+                    cb(event.target.result);
+                });
             };
             reader.readAsText(file);
         }
@@ -92,6 +109,16 @@
 
             omf = document.getElementById("offsetMaximumForce");
             omf.innerHTML = offsetMaximumForce;
+        }
+
+        function setImage(response) {
+            img = document.getElementById('image');
+            var reader = new FileReader();
+            reader.onloadend = () => {
+                console.log(reader.result);
+                img.innerHTML = "<img class='image' src='" + reader.result + "'></img>";
+            };
+            reader.readAsDataURL(response);
         }
     </script>
 </body>
