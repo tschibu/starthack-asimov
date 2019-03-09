@@ -55,7 +55,12 @@ async def crash_image(request):
     ''' crash image parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashImage'")
 
-    customOffset = request.args.get('timeOffsetMS', 0)
+    customOffset = 0
+    try:
+        customOffset = int(request.args.get('timeOffsetMS'))
+    except Exception as e:
+        log.error(e)
+
     log.info("Set customOffset: " + str(customOffset) + "ms")
 
     angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=customOffset)
