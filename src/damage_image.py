@@ -3,6 +3,8 @@ import helper.log_helper as logger
 import numpy as np
 import os
 import math
+import shutil
+
 
 class DamageImage:
     def __init__(self, angle_impact, max_force, damage_id, crash_time, max_force_offset=None):
@@ -15,14 +17,15 @@ class DamageImage:
         self.null_point_y = 582
         self.car_point_x = 0
         self.car_point_y = 0
-        self.image_size_x, self.image_size_y = self.image.shape[0], self.image.shape[1]
         self.x = 0
         self.y = 0
         self.max_force = max_force
         self.angle_impact = angle_impact
         self.off_set_in_milliseconds = max_force_offset
 
-        self.image_path = "images/car_rendered_at_" + str(self.off_set_in_milliseconds) + "_ms.png"
+        self.image_rendered_path = "images_rendered/"
+        self.image_rendered_file = str(damage_id) + "_car_rendered_at_" + str(self.off_set_in_milliseconds) + "ms.png"
+
         self.log.info(
             "Param x=" + str(self.x) + "; y=" + str(self.y) + "; radius=" + str(self.max_force) + "; angle=" + str(
                 self.angle_impact))
@@ -110,6 +113,9 @@ class DamageImage:
         self.log.info("crash identifier = " + str(self.damage_id) + " - damage time = " + str(self.crash_time))
 
     def __dynamic_damage_calc(self, damage):
+        """
+        create the radius for the damage value.
+        """
         max_damage = 60000
         min_damage = 8000
 
@@ -122,21 +128,32 @@ class DamageImage:
         return int((damage / max_damage) * 150)
 
     def __write_image(self):
-        cv2.imwrite(self.image_path, self.image)
+        """
+        write the generated image to the rendered file folder.
+        """
+        cv2.imwrite(self.image_rendered_file, self.image)
 
     def get_image(self):
-        """Retrun a image with the a circle and an arrow.
+        """
+        Retrun a image with the a circle and an arrow.
         """
         self.__draw()
         self.__write_image()
-        return self.image_path
+        return self.image_rendered_file
 
-    def remove_image(self):
-        os.remove(self.image_path)
+    def remove_all_rendered_image(self):
+        """
+        delete all rendered files on the system.
+        """
+        files_rendered = os.listdir(self.image_rendered_path)
+        for file in files_rendered:
+            self.log.debug("Delete file " + str(self.image_rendered_path) + "/" + str(file) + " on system.")
+
+        shutil.rmtree(self.image_rendered_path, ignore_errors=True)
 
     def show_image(self):
-        """show the image with the right circle and arrow with opencv.
-
+        """
+        show the image with the right circle and arrow with opencv.
         """
         self.__draw()
         window_name = "CrashImage"
