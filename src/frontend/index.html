@@ -143,9 +143,14 @@
         }
 
         function iterateOverImages(image_array) {
-            image_array.forEach((el) => {
-                console.log(el)
-            });
+            console.log("Showing new image. Array Size: " + image_array.length);
+            el = image_array.shift();
+            img.innerHTML = "<img class='image' src='" + el + "'></img>";
+            if(image_array.length > 0) {
+                setTimeout(() => {
+                    iterateOverImages(image_array);
+                }, 500);
+            }
         }
 
         function customOffsetOnChange(ev) {
