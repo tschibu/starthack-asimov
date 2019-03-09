@@ -16,7 +16,7 @@ from sanic.response import file
 
 import helper.log_helper as logger
 import config
-from drawer import Drawer
+from damage_image import Drawer
 from data_parser import DataParser
 
 app = Sanic()
