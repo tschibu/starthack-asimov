@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" ondrop="event.preventDefault()">
 <head>
     <meta charset="utf-8">
 
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/frontend/styles.css">
 </head>
 
-<body>
+<body ondragover="dragEnterHandler(event)" ondragleave="dragLeaveHandler(event)" ondrop="dropHandler(event);">
     <section class="title">
         <h2>CrashSimulation - Asimov</h2>
     </section>
@@ -30,9 +30,9 @@
         </div>
     </section>
 
-    <section class="upload">
-        <div class="dropZone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-            <p>Drag one JSON crash report file to this Drop Zone ...</p>
+    <section id="upload" class="upload">
+        <div id="dropZone" class="dropZone">
+            <p>Drag a crash report file to this drop zone</p>
         </div>
     </section>
 
@@ -50,10 +50,19 @@
 
                 getText(file, [requestCrashInfo, requestCrashImage]);
             }
+            var dropzone = document.getElementById("upload");
+            dropzone.classList.remove("dragover");
+        }
+        function dragEnterHandler(ev) {
+            ev.preventDefault();
+            var dropzone = document.getElementById("upload");
+            dropzone.classList.add("dragover");
         }
 
-        function dragOverHandler(ev) {
+        function dragLeaveHandler(ev) {
             ev.preventDefault();
+            var dropzone = document.getElementById("upload");
+            dropzone.classList.remove("dragover");
         }
 
         function requestCrashInfo(json_string) {
