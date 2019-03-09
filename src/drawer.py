@@ -5,6 +5,7 @@ import os
 
 class Drawer:
     def __init__(self, x, y, radius, angle, off_set_in_milliseconds=None):
+        self.log = logger.get(True, "Drawer")
         self.image = cv2.imread("images/car_big.png")
         self.x = x
         self.y = y
@@ -12,9 +13,7 @@ class Drawer:
         self.angle = angle
         self.off_set_in_milliseconds = off_set_in_milliseconds
 
-        self.image_path = "images/car_rendered_at_off_set_in_milliseconds.png"
-
-        self.log = logger.get(True, "Drawer")
+        self.image_path = "images/car_rendered_at_" + self.off_set_in_milliseconds + "_ms.png"
         self.log.info(
             "Param x=" + str(self.x) + "; y=" + str(self.y) + "; radius=" + str(self.radius) + "; angle=" + str(
                 self.angle))
@@ -83,6 +82,7 @@ class Drawer:
 
 if __name__ == "__main__":
     drawer = Drawer(1300, 550, 60, 180, 6110)
-    print(drawer.get_image())
-    drawer.remove_image()
+    drawer.show_image()
+    #print(drawer.get_image())
+    # drawer.remove_image()
 
