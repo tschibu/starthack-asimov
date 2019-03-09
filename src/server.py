@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 """Server for the Raspi Webapp
+Examples:
+- get json with curl -> curl -X POST http://0.0.0.0:2828/api/v1/getCrashInfo
+- get image with curl -> curl -X POST http://0.0.0.0:2828/api/v1/getCrashImage -o received_img.png
 """
 import sys
 sys.path.append('..')
