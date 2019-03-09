@@ -153,6 +153,7 @@ class DataParser:
 
         if offset_maxforce_in_ms - predicted_impact_time <= 0:
             return None
+            logger.error("Impact should be in the future, black magic")
 
         return 180 - math.degrees(np.arctan2(ry[offset_index], rx[offset_index]))
 
