@@ -16,6 +16,7 @@ from sanic.response import file
 
 import helper.log_helper as logger
 import config
+from drawer import Drawer
 
 app = Sanic()
 app.name = "CrashSimulationAsimov"
@@ -27,6 +28,17 @@ def signal_int_handler(sig, frame):
     sys.exit(0)
 
 # Routes
+# GET - index.html
+@app.route('/', methods=['GET'],)
+async def index(request):
+    return await file(os.path.join(os.path.dirname(__file__), 'frontend/index.html'))
+
+# GET - favicon.ico
+@app.route('/favicon.ico', methods=['GET'],)
+async def favicon(request):
+    return await file(os.path.join(os.path.dirname(__file__), 'frontend/favicon.ico'))
+
+
 # POST request 1 - returns JSON {"impactAngle": degrees, "offsetMaximumForce": millisecond}
 @app.route('/api/v1/getCrashInfo', methods=['POST',])
 async def crash_info(request):
@@ -39,9 +51,11 @@ async def crash_info(request):
 async def crash_image(request):
     ''' crash image parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashImage'")
-    return await file('images/lena.png')
+    d = Drawer(1300, 550, 60, 180, 6110)
+    return await file(d.get_image())
 
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_int_handler)
     ##app.add_task(task(app))
+    app.static('/frontend', './frontend')
     app.run(host=config.host, port=config.port)
