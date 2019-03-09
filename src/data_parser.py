@@ -10,8 +10,9 @@ from .helper import log_helper
 # Define Logger without file handle
 logger = log_helper.get(False, "Data Parse")
 
+
 class DataParser:
-    def parse_input_data(self, file_path, direct_json=False, calibration=True):
+    def parse_input_data(self, file_path, calibration=True):
         """
         Parses a JSON
         :param file_path:   path to the JSON file
@@ -22,9 +23,7 @@ class DataParser:
         base_json = self.__read_json_from_filesystem(file_path)
         b64payload = self.__get_b64payload_from_basejson(base_json)
 
-        if (direct_json != False):
-            # overwrite with passed down json
-            b64payload = self.__get_b64payload_from_basejson(direct_json)
+        b64payload = self.__get_b64payload_from_basejson(base_json)
 
         encoded = self.__base64_decode(b64payload)
         # convert to python list
@@ -38,7 +37,7 @@ class DataParser:
         if calibration:
             acceleration = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
 
-        #norm with oneG
+        # norm with oneG
         oneG = pylist["oneG"]
         damage_id = pylist["id"]
 
@@ -53,13 +52,12 @@ class DataParser:
         max_force = self.__calculate_max_force(rel_time, rx, ry, rz)
 
         crash_time = pylist["timestamp"] + max_force_offset
-        crash_time= pd.to_datetime(crash_time, unit='s')
+        crash_time = pd.to_datetime(crash_time, unit='s')
 
-        #calculate angle
-        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time,rel_time, rx,ry)
+        # calculate angle
+        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, rx, ry)
 
         return angle_impact, max_force, damage_id, crash_time, max_force_offset
-
 
     def __base64_decode(self, base64_string):
         """
@@ -163,7 +161,6 @@ class DataParser:
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
 
-
-#dp = DataParser()
-#result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json')
-#print(result)
+# dp = DataParser()
+# result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json')
+# print(result)
