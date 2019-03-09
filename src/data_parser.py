@@ -37,6 +37,10 @@ class DataParser:
 
         acceleration = np.array(acceleration)
 
+        # norm with oneG
+        oneG = pylist["oneG"]
+        # norm with one g
+        rx, ry, rz = self.norm_with_g(rx, ry, rz, oneG)
         damage_id = pylist["id"]
 
         #get rel_times for better handlin
@@ -47,19 +51,20 @@ class DataParser:
 
         if(custom_offset!=0 and ( custom_offset <= np.max(rel_time) and custom_offset >= np.min(rel_time) )):#calculate custom offset force
             max_force_offset = custom_offset
-            max_force = self.__calculate_custom_offset_force(custom_offset, acceleration)
+            max_force = self.__calculate_custom_offset_force(rel_time, custom_offset, acceleration)
             print(max_force)
         else: #calculate max offset
             max_force_offset = self.__calculate_offset_max_force(rel_time, acceleration)
             max_force = self.__calculate_max_force(rel_time, acceleration)
 
-        crash_time = pylist["timestamp"] + max_force_offset
+        crash_time = pylist["timestamp"]
         crash_time = pd.to_datetime(crash_time, unit='s')
 
         # calculate angle
         angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, acceleration[:, 0], acceleration[:, 1])
 
         return angle_impact, max_force, damage_id, crash_time, max_force_offset
+
 
     def get_rel_times(self, jsonfile):
         """Liefert die Rel-Timestamps des Datensatzes zurück
@@ -108,26 +113,30 @@ class DataParser:
         array[:, 0] = array[:, 0] + c
         return array.tolist()
 
+    @DeprecationWarning
     def __get_virtual_xyz(self, acceleration, calibration):
-        """
-        Calibrates virtual x,y,z data from the acceleration and calibration (0 used)
-
+        """Calibrates virtual x,y,z data from the acceleration and calibration (0 used)
         :param acceleration:    data array with [ [timestamp, x, y, z], [...], ...]
         :param calibration:     calibrations array like [ [x,y,z] , [x2,y2,z2], [x3,y3,z3] ]
         :return:                Virtual position array like [ [timestamp, virt_x, virt_y, virt_z], ...]
         """
-         
+
         for i_acc in acceleration:
             virt_x = calibration[0][0] * i_acc[1] + calibration[0][1] * i_acc[2] + calibration[0][2] * i_acc[3]
             i_acc[1] = virt_x
-
             virt_y = calibration[1][0] * i_acc[1] + calibration[1][1] * i_acc[2] + calibration[1][2] * i_acc[3]
             i_acc[2] = virt_y
-
             virt_z = calibration[2][0] * i_acc[1] + calibration[2][1] * i_acc[2] + calibration[2][2] * i_acc[3]
             i_acc[3] = virt_z
-
         return acceleration
+
+    def calibrate_impact_data(self, rx, ry, rz, calibration):
+        """Use the calibration data to calibrate the given data."""
+        calibrated_rx = [calibration[0][0] * x + calibration[0][1] * y + calibration[0][2] * z for x, y, z in zip(rx, ry, rz)]
+        calibrated_ry = [calibration[1][0] * x + calibration[1][1] * y + calibration[1][2] * z for x, y, z in zip(rx, ry, rz)]
+        calibrated_rz = [calibration[2][0] * x + calibration[2][1] * y + calibration[2][2] * z for x, y, z in zip(rx, ry, rz)]
+        return calibrated_rx, calibrated_ry, calibrated_rz
+
 
     def __norm_with_g(self, acceleration, one_g):
         return acceleration / one_g
@@ -158,8 +167,8 @@ class DataParser:
             return None
 
         if offset_maxforce_in_ms - predicted_impact_time <= 0:
-            return None
-            logger.error("Impact should be in the future, black magic")
+            #return None
+            logger.error("Impact should be in the future, black magic") #return anyway
 
         return 180 - math.degrees(np.arctan2(ry[offset_index], rx[offset_index]))
 
@@ -189,7 +198,3 @@ class DataParser:
 
     def __encoded_payload_to_list(self, encodedjsonstring):
         return json.loads(encodedjsonstring)
-
-#dp = DataParser()
-#result = dp.parse_input_data(r'C:\hslu\git\starthack-asimov\src\data\1.json', True, custom_offset=4624111)
-#print(result)

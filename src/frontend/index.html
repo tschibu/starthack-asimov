@@ -42,6 +42,8 @@
     </section>
 
     <script>
+        let fileContent = "";
+
         function dropHandler(ev) {
             ev.preventDefault();
 
@@ -55,6 +57,8 @@
 
                 reader = new FileReader();
                 reader.onload = function (event) {
+                    fileContent = event.target.result;
+
                     requestCrashInfo(event.target.result);
 
                     var offset = document.getElementById("customOffset").value;
@@ -66,6 +70,7 @@
             var dropzone = document.getElementById("upload");
             dropzone.classList.remove("dragover");
         }
+
         function dragEnterHandler(ev) {
             ev.preventDefault();
             var dropzone = document.getElementById("upload");
@@ -137,6 +142,17 @@
             reader.readAsDataURL(response);
         }
 
+        function iterateOverImages(image_array) {
+            console.log("Showing new image. Array Size: " + image_array.length);
+            el = image_array.shift();
+            img.innerHTML = "<img class='image' src='" + el + "'></img>";
+            if(image_array.length > 0) {
+                setTimeout(() => {
+                    iterateOverImages(image_array);
+                }, 500);
+            }
+        }
+
         function customOffsetOnChange(ev) {
             ev.preventDefault();
 
@@ -149,7 +165,18 @@
             filename = document.getElementById("filename").value;
             if(filename != 'undefined' && filename !== "")
             {
-                console.log("Button Pressed");
+                var xhr = new XMLHttpRequest();
+
+                var url = "http://"+window.location.hostname+":2828/api/v1/play";
+
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        iterateOverImages(JSON.parse(xhr.response).data);
+                    }
+                };
+                xhr.send(fileContent);
             }
         }
     </script>
