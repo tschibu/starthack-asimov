@@ -6,10 +6,15 @@ Webseite: https://starthack.ch
 Slack: https://starthack19.slack.com
 
 ## Usage:
+
 * Install Docker - https://www.docker.com/get-started
 * Build Docker Image
     ```cmd
-    docker build -t crashsimulation-asimov .
+    ./docker_build.sh
+    ```
+* Run Docker Image
+    ```cmd
+    ./docker_run.sh
     ```
 
 ## License
