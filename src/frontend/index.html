@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/frontend/styles.css">
 </head>
 
-<body>
+<body ondragstart="return false;" ondrop="return false;">
     <section class="title">
         <h2>CrashSimulation - Asimov</h2>
     </section>
@@ -23,6 +23,9 @@
         <h5 id="impactAngle"></h5>
         <h3>offsetMaximumForce:</h3>
         <h5 id="offsetMaximumForce"></h5>
+        <h3>customOffset:</h3>
+        <input type="range" min="-8000" max="8000" value="0" step="10" class="slider" id="customOffset" onchange="customOffsetOnChange(this);">
+        <h5 id="customOffsetText"></h5>
     </section>
 
     <section>
@@ -51,7 +54,10 @@
                 reader = new FileReader();
                 reader.onload = function (event) {
                     requestCrashInfo(event.target.result);
-                    requestCrashImage(event.target.result, 1000);
+
+                    var offset = document.getElementById("customOffset").value;
+                    console.log("Using customOffset: " + offset);
+                    requestCrashImage(event.target.result, offset);
                 };
                 reader.readAsText(file);
             }
@@ -118,6 +124,10 @@
                 img.innerHTML = "<img class='image' src='" + reader.result + "'></img>";
             };
             reader.readAsDataURL(response);
+        }
+
+        function customOffsetOnChange(target) {
+            document.getElementById("customOffsetText").innerHTML = document.getElementById("customOffset").value;
         }
     </script>
 </body>
