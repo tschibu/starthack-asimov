@@ -45,7 +45,10 @@ async def favicon(request):
 async def crash_info(request):
     ''' crash info parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashInfo'")
-    angle, max_force_offset, _, _, _ = DataParser().parse_input_data(request.body.decode('utf8'))
+    customOffset = 0
+    if request.get('timeOffsetMS') is not None:
+        customOffset = request.get('timeOffsetMS')
+    angle, max_force_offset, _, _, _ = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=customOffset)
     return json({'impactAngle': angle, 'offsetMaximumForce': max_force_offset})
 
 # POST request 2 - returns a rendered crash image (PNG)
