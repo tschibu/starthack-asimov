@@ -1,0 +1,57 @@
+* {
+    font-family: Verdana, Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 90vh;
+}
+
+.upload {
+    height: 200px;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+}
+
+section {
+    pointer-events: none;
+}
+
+input, button {
+    pointer-events: auto;
+}
+
+.dragover {
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+}
+
+.dropZone {
+    border: 5px dotted blue;
+    border-radius: 25px;
+    background: deepskyblue;
+    opacity: 0.8;
+    color: white;
+    text-align: center;
+    text-weight: bold;
+    text-shadow: #001133 2px 2px 2px;
+    margin: 5px auto;
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.dropZone p {
+    display: table-cell;
+    vertical-align: middle;
+    opacity: 1;
+}
+
+.image {
+    height: 600px;
+}
