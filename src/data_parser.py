@@ -32,39 +32,43 @@ class DataParser:
         acceleration = pylist["data"]
         acceleration = sorted(acceleration, key=lambda d: d[0])
 
-        if calibration:
-            acceleration = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
-
         acceleration = np.array(acceleration)
 
-        # norm with oneG
-        oneG = pylist["oneG"]
-        # norm with one g
-        rx, ry, rz = self.norm_with_g(rx, ry, rz, oneG)
-        damage_id = pylist["id"]
-
-        #get rel_times for better handlin
+        # get rel_times for better handlin
         rel_time = acceleration[:, 0]
-        #get x,y,z for better handling
+        # get x,y,z for better handling
         acceleration = acceleration[:, 1:]
 
+        if calibration:
+            acceleration = self.calibrate_impact_data(acceleration[:, 0], acceleration[:, 1], acceleration[:, 2],
+                                                      pylist['calibration'])
 
-        if(custom_offset!=0 and ( custom_offset <= np.max(rel_time) and custom_offset >= np.min(rel_time) )):#calculate custom offset force
+        # norm with oneG
+        one_g = pylist["oneG"]
+        # norm with one g
+        acceleration = self.__norm_with_g(acceleration, one_g)
+        damage_id = pylist["id"]
+
+
+        if (custom_offset != 0 and (custom_offset <= np.max(rel_time) and custom_offset >= np.min(
+                rel_time))):  # calculate custom offset force
             max_force_offset = custom_offset
-            max_force = self.__calculate_custom_offset_force(rel_time, custom_offset, acceleration)
+            # get index of offset
+            index = rel_time.where(rel_time == max_force_offset)
+            max_force = self.__calculate_custom_offset_force(index, acceleration)
             print(max_force)
-        else: #calculate max offset
+        else:  # calculate max offset
             max_force_offset = self.__calculate_offset_max_force(rel_time, acceleration)
-            max_force = self.__calculate_max_force(rel_time, acceleration)
+            max_force = self.__calculate_max_force(acceleration)
 
         crash_time = pylist["timestamp"]
         crash_time = pd.to_datetime(crash_time, unit='s')
 
         # calculate angle
-        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, acceleration[:, 0], acceleration[:, 1])
+        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, acceleration[:, 0],
+                                              acceleration[:, 1])
 
         return angle_impact, max_force, damage_id, crash_time, max_force_offset
-
 
     def get_rel_times(self, jsonfile):
         """Liefert die Rel-Timestamps des Datensatzes zurück
@@ -84,7 +88,6 @@ class DataParser:
         acceleration = self.__get_virtual_xyz(pylist['data'], pylist['calibration'])
         rel_time = [x[0] for x in acceleration]
         return rel_time
-
 
     def __base64_decode(self, base64_string):
         """
@@ -132,11 +135,14 @@ class DataParser:
 
     def calibrate_impact_data(self, rx, ry, rz, calibration):
         """Use the calibration data to calibrate the given data."""
-        calibrated_rx = [calibration[0][0] * x + calibration[0][1] * y + calibration[0][2] * z for x, y, z in zip(rx, ry, rz)]
-        calibrated_ry = [calibration[1][0] * x + calibration[1][1] * y + calibration[1][2] * z for x, y, z in zip(rx, ry, rz)]
-        calibrated_rz = [calibration[2][0] * x + calibration[2][1] * y + calibration[2][2] * z for x, y, z in zip(rx, ry, rz)]
-        return calibrated_rx, calibrated_ry, calibrated_rz
+        calibrated_rx = [calibration[0][0] * x + calibration[0][1] * y + calibration[0][2] * z for x, y, z in
+                         zip(rx, ry, rz)]
+        calibrated_ry = [calibration[1][0] * x + calibration[1][1] * y + calibration[1][2] * z for x, y, z in
+                         zip(rx, ry, rz)]
+        calibrated_rz = [calibration[2][0] * x + calibration[2][1] * y + calibration[2][2] * z for x, y, z in
+                         zip(rx, ry, rz)]
 
+        return np.column_stack((calibrated_rx, calibrated_ry, calibrated_rz))
 
     def __norm_with_g(self, acceleration, one_g):
         return acceleration / one_g
@@ -148,7 +154,7 @@ class DataParser:
         return np.sqrt(forces)
 
     # not directly
-    def __calculate_max_force(self, rel_time, acceleration):
+    def __calculate_max_force(self, acceleration):
         forces = self.__calculate_forces(acceleration)
         return np.max(forces)
 
@@ -167,8 +173,8 @@ class DataParser:
             return None
 
         if offset_maxforce_in_ms - predicted_impact_time <= 0:
-            #return None
-            logger.error("Impact should be in the future, black magic") #return anyway
+            # return None
+            logger.error("Impact would be in the future, black magic")  # return anyway
 
         return 180 - math.degrees(np.arctan2(ry[offset_index], rx[offset_index]))
 
