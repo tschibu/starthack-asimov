@@ -50,22 +50,24 @@ class DataParser:
         damage_id = pylist["id"]
 
 
-        if (custom_offset != 0 and (custom_offset <= np.max(rel_time) and custom_offset >= np.min(
-                rel_time))):  # calculate custom offset force
+        if custom_offset != 0:  # calculate custom offset force
+            #custom_offset = np.min(rel_time) + custom_offset
             max_force_offset = custom_offset
+            index = int(custom_offset / 16000 * acceleration.shape[0])
             # get index of offset
-            index = rel_time.where(rel_time == max_force_offset)
+            #index = np.where(rel_time == max_force_offset)
             max_force = self.__calculate_custom_offset_force(index, acceleration)
             print(max_force)
         else:  # calculate max offset
             max_force_offset = self.__calculate_offset_max_force(rel_time, acceleration)
             max_force = self.__calculate_max_force(acceleration)
+            index = np.where(rel_time == max_force_offset)
 
         crash_time = pylist["timestamp"]
         crash_time = pd.to_datetime(crash_time, unit='s')
 
         # calculate angle
-        angle_impact = self.__calculate_angle(max_force_offset, predicted_impact_time, rel_time, acceleration[:, 0],
+        angle_impact = self.__calculate_angle(index, predicted_impact_time, rel_time, acceleration[:, 0],
                                               acceleration[:, 1])
 
         return angle_impact, max_force, damage_id, crash_time, max_force_offset
@@ -164,19 +166,10 @@ class DataParser:
         return rel_time[offset_max_force]  # relative time at max force value
 
     def __calculate_custom_offset_force(self, custom_offset, acceleration):
-        return np.sqrt(np.square(acceleration.index[custom_offset]).sum())
+        return np.sqrt(np.square(acceleration[custom_offset,:]).sum())
 
-    def __calculate_angle(self, offset_maxforce_in_ms, predicted_impact_time, rel_time, rx, ry):
-        try:
-            offset_index = np.where(rel_time == offset_maxforce_in_ms)
-        except ValueError:
-            return None
-
-        if offset_maxforce_in_ms - predicted_impact_time <= 0:
-            # return None
-            logger.error("Impact would be in the future, black magic")  # return anyway
-
-        return 180 - math.degrees(np.arctan2(ry[offset_index], rx[offset_index]))
+    def __calculate_angle(self, index, predicted_impact_time, rel_time, rx, ry):
+        return 180 - math.degrees(np.arctan2(ry[index], rx[index]))
 
     def __ringbuffer2array(self, ringbuffer):
         """

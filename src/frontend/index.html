@@ -24,10 +24,8 @@
         <h3>offsetMaximumForce:</h3>
         <h5 id="offsetMaximumForce"></h5>
         <h3>customOffset:</h3>
-        <input type="range" min="-8000" max="8000" value="0" step="10" class="slider" id="customOffset" onchange="customOffsetOnChange(event);">
+        <input type="range" min="0" max="16000" value="0" step="10" class="slider" id="customOffset" onchange="customOffsetOnChange(event);">
         <h5 id="customOffsetText"></h5>
-        <h3>Play:</h3>
-        <button type="button" onclick="play(event);">Play</button>
     </section>
 
     <section>
@@ -142,43 +140,14 @@
             reader.readAsDataURL(response);
         }
 
-        function iterateOverImages(image_array) {
-            console.log("Showing new image. Array Size: " + image_array.length);
-            el = image_array.shift();
-            img.innerHTML = "<img class='image' src='" + el + "'></img>";
-            if(image_array.length > 0) {
-                setTimeout(() => {
-                    iterateOverImages(image_array);
-                }, 500);
-            }
-        }
-
         function customOffsetOnChange(ev) {
             ev.preventDefault();
 
             document.getElementById("customOffsetText").innerHTML = document.getElementById("customOffset").value;
+            requestCrashInfo(fileContent);
+            requestCrashImage(fileContent, document.getElementById("customOffset").value);
         }
 
-        function play(ev) {
-            ev.preventDefault();
-
-            filename = document.getElementById("filename").value;
-            if(filename != 'undefined' && filename !== "")
-            {
-                var xhr = new XMLHttpRequest();
-
-                var url = "http://"+window.location.hostname+":2828/api/v1/play";
-
-                xhr.open("POST", url, true);
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        iterateOverImages(JSON.parse(xhr.response).data);
-                    }
-                };
-                xhr.send(fileContent);
-            }
-        }
     </script>
 </body>
 </html>
