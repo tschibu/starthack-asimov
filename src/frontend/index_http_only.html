@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>CrashSimulation - Asimov [Azure Build]</title>
+    <title>CrashSimulation - Asimov</title>
     <meta name="description" content="CrashSimulation">
     <meta name="author" content="Asimov">
 
@@ -84,7 +84,7 @@
         function requestCrashInfo(json_string) {
             var xhr = new XMLHttpRequest();
 
-            var url = "https://"+window.location.hostname+"/api/v1/getCrashInfo"; //for local docker access use: :2828/api/v1/getCrashInfo
+            var url = "http://"+window.location.hostname+"/api/v1/getCrashInfo"; //for local docker access use: :2828/api/v1/getCrashInfo
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function () {
@@ -101,7 +101,7 @@
         function requestCrashImage(json_string, offset) {
             var xhr = new XMLHttpRequest();
 
-            var url = "https://"+window.location.hostname+"/api/v1/getCrashImage"; // for local docker acces use: :2828/api/v1/getCrashImage
+            var url = "http://"+window.location.hostname+"/api/v1/getCrashImage"; // for local docker acces use: :2828/api/v1/getCrashImage
             if(offset != 'undefined' && offset != 0)
             {
                 url += '?timeOffsetMS=' + offset;

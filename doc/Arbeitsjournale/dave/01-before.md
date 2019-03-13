@@ -22,4 +22,11 @@ Guten Mutes alles dabei zu haben verlies ich also gegen 14 Uhr die Wohnung Richt
 
 ## Git-Repository
 
-git init + wie arbeiten wir ...
+Vor dem Hack galt es noch zu bestimmen, wie wir miteinander kollaborieren werden.
+Schnell war klar, dass wir unseren Sourcecode mittels Git und Github verwalten werden. 
+
+Wir haben uns darauf geeignet mittels Gitflow zu arbeiten, damit jeder an seinem Part arbeiten können und wir uns nicht ständig mit Git Merge Konflikten ausseinandersetzen müssen.
+In der Theorie klingt das gut, praktisch hat es leider nicht so geklappt uns gegenseitig keine Konflikte zu generieren, das lag wohl am akuten Schlafmangel.
+
+Unser Github Repo:
+https://github.com/tschibu/starthack-asimov
