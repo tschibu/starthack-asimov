@@ -95,7 +95,7 @@ The Exposing port could alternatively be set by Shell command like this:
 
 Navigate to the Page Link shown in the Overiew (Start it first if stopped ;)
 
-https://asimovFS19.azurewebsites.net
+https://asimovfs192.azurewebsites.net/
 
 For debugging Use F12 Console Output and under Azure you can activate Logging under "Diagnostic logs".  
 Under Container Settings, you can see a basic output Log of the container (has it started or nor).  
