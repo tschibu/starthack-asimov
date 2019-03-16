@@ -35,4 +35,3 @@ Direkt nach der Publizierung haben wir uns dann mit Tablet und Pen an ein Tisch 
 ## - 23.30 Uhr Start Coding
 
 Nun ging es endlich ans programmieren.
-
