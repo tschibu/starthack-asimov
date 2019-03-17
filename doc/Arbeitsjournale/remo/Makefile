@@ -1,12 +1,11 @@
-EPUBPARAMS=--toc -N -s -t epub
-PDFPARAMS=--toc -N -s -t latex --pdf-engine=xelatex -V documentclass=scrartcl -V papersize=a4 -V lang=de -V urlcolor=blue -V linkcolor=blue
+PDFPARAMS=--toc -N -s -t latex --pdf-engine=xelatex -V documentclass=scrreprt -V papersize=a4 -V lang=de -V urlcolor=blue -V linkcolor=blue -V geometry:margin=2.54cm
 FONTS=-V mainfont='DejaVu Serif' -V sansfont='DejaVu Sans' -V monofont='DejaVu Sans Mono'
 DATE=-V date="`date +'%Y-%m-%d'`"
 
-all: arbeitsjournal_starthack.pdf
+all: clean pdf
 
-arbeitsjournal_starthack.pdf: *.md
-	pandoc $(PDFPARAMS) $(FONTS) $(DATE) *.md -o arbeitsjournal_starthack.pdf
+pdf: *.md
+	pandoc $(PDFPARAMS) $(FONTS) $(DATE) *.md -o arbeitsjournal_starthack_remo_schwarzentruber.pdf
 
 clean:
-	rm -f arbeitsjournal_starthack.pdf
+	rm -f arbeitsjournal_starthack_remo_schwarzentruber.pdf
