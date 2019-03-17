@@ -1,12 +1,12 @@
 # Vorbereitung STARTHack
 
-Für mich ist es der erste Hackathon meiner Informatik-Laufbahn und weiss nicht genau, was auf mich zukommt. Einige Infos von bereits Hackathon erfahrene Studienkollegen haben mich aber dann beruhigt. Etwas nervös bin ich aber trotzdem. 
+Für mich war es der erste Hackathon meiner Informatik-Laufbahn und weiss nicht genau, was auf mich zukommt. Einige Infos von bereits Hackathon erfahrene Studienkollegen haben mich aber dann beruhigt. Etwas nervös war ich aber trotzdem. 
 
 ## Packliste
 
-Ich bereite mich auf "Reisen" jeweils immer akribisch vor. Dazu gehört unter anderem auch eine Packliste. Diese Listen speichere ich jeweils immer ab und kann sie so von Zeit zu Zeit wieder vewenden.  
+Ich bereite mich auf "Reisen" jeweils immer akribisch vor. Dazu gehört unter anderem auch eine Packliste. Diese Listen speichere ich immer ab und kann sie so von Zeit zu Zeit wiedervewenden.  
 
-Hier die Packliste vom STARTHack 2018:
+Hier die Packliste vom STARTHack 2019:
 
 ### Notebook
 
@@ -55,7 +55,7 @@ Hier die Packliste vom STARTHack 2018:
 
 ## Git-Repository
 
-Als eine weitere Vorbereitung für Hackathon habe ich das Git-Repository vorbereitet. Unser Code wird über das Code-Plattform GitHub administriert respektive orchestiert. Also Git-Source-Management Technologie haben wir die Standardausprägung von Gitflow mit den vier Branchtypen (master, devolop, feature und release branch) geeinigt. So ist sichergestellt dass neue Features (welche im feature Branch entwickelt werden) von jedem Teammitglied unabhängig entwickeln und getesten werden kann.
+Als eine weitere Vorbereitung für Hackathon habe ich das Git-Repository vorbereitet. Unser Code wird über das Code-Plattform GitHub administriert. Also Git-Source-Management Technologie hatten wir die Standardausprägung von Gitflow mit den vier Branchtypen (master, devolop, feature und release branch) geeinigt. So war sichergestellt dass neue Features (welche auf dem feature Branch entwickelt werden) von jedem Teammitglied unabhängig entwickeln und getesten werden kann.
 Der Merge passiert dann jeweils gegen den devolop Branch. Geplant ist eine eine Version (Release 0.0.1) zum Zeitpunkt von dem Project-Closing Date am Sonntag, 10.00 Uhr zu releasen.
 Mit dieser Release Version (0.0.1) werden wir dann am Sonntag in den Pitch gehen.
 
