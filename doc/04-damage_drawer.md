@@ -18,13 +18,13 @@ Die Python Standardbibliothek `os` / `math` / `shutil` werden für kleinere Funk
 
 Zu Beginn wurde mittels OpenCV die Datei eingelesen und hardcoded ein Kreis und ein Pfeil gezeichnet. Mit dieser Version haben wir dann im Teamm das Zieldesign der Bilddatei mittels iPad und Pen gezeichnet. 
 
-Erste Version Damage Image                                                         |
-:---------------------------------------------------------------------------------:|
-![Erste Version Damage Image](img/first_version.png "Erste Version Damage Image")  |
+|Erste Version Damage Image                                                         |
+|:---------------------------------------------------------------------------------:|
+|![Erste Version Damage Image](img/first_version.png "Erste Version Damage Image")  |
 
-  Skizze Damage drawer                                                 |
-:---------------------------------------------------------------------:|
-  ![Skizze Damage drawer](img/skizze_damage.png "Skizze Damage drawer")|
+|Skizze Damage drawer                                                 |
+|:-------------------------------------------------------------------:|
+|![Skizze Damage drawer](img/skizze_damage.png "Skizze Damage drawer")|
 
 
 ## Realisation / Umsetzung
@@ -139,8 +139,7 @@ def __dynamic_damage_calc(self, damage):
 | `self`             | Instanz-Referenz                                                             |
 | `damage`           | Numerischer Wert mit dem die Grösse der Beschädigung am Auto berechnet wird. |
 
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+Diese Hilfsmethode berechnet aufgrund einem numerischen Wert die grösse der Beschädigung. Die maximale Beschädigung von `15` und die minimale Beschädigung von `2` wurden aus den Daten ermittelt.
 
 ### Methode: Schreiben der Bilddatei
 
@@ -151,9 +150,7 @@ def __write_image(self):
 |--------------------|------------------------------------------------------------------------------------------------------------|
 | `self`             | Instanz-Referenz                                                                                           |
 
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-
+Hier wird die PNG-Bilddatei auf den lokalen Storage von dem Server heruntergeschrieben.
 
 ### Methode: Pfad der geschriebene Datei
 
@@ -165,7 +162,9 @@ def get_image(self):
 |--------------------|------------------------------------------------------------------------------------------------------------|
 | `self`             | Instanz-Referenz                                                                                           |
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+Diese Public Methode wird von Server verwendet umd die fertige Bilddatei zu erhlaten. Innerhalb dieser Methode werden die Zeichnungsmethoden `self.__draw()` und die `self.__write_image()` ausgeführt.
+
+Als Rückgabewert erhält der Server den Pfad der Datei, welche auf dem Server geschrieben wurde.
 
 
 ### Methode: Löschen von allen gerendert Dateien
@@ -178,7 +177,7 @@ def remove_all_rendered_image(self):
 |--------------------|------------------------------------------------------------------------------------------------------------|
 | `self`             | Instanz-Referenz                                                                                           |
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+Diese Housekeeping Methode dient dazu, alle gerenderten Bilddateien auf dem Server zu löschen. Die Methode kann vor dem Start des Server wie auch nach dem Testing ausgeführt werden.
 
 ### Methode: Anzeige der Datei auf dem Bildschirm
 
@@ -190,16 +189,20 @@ def show_image(self):
 |--------------------|------------------------------------------------------------------------------------------------------------|
 | `self`             | Instanz-Referenz                                                                                           |
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+Die `show_image` dient für eine rasche Entwicklung ohne Server. Sie führt die gleichen Methoden aus, wie die Methode `get_image` mit dem Unterschied, dass die Bilddatei nicht an den Server zurückgegeben wird sondern mittels OpenCV an dem Display angezeigt wird. So kann Abhängigkeit vom Server neue Funktionen rasche getestet werden.  
 
 
 ## Implementierung im Projekt
 
-Aufruf bei /api/v1/getCrashImage wie auch bei /api/v1/play
+Innerhalb von dem Projekt werden wir die Funktion `get_image` wie folgt benutzt:
 
+![Verwendung von dem Damage drawer](img/STARTHack_damage_image_usage.png "Verwendung von dem Damage drawer")
+
+Innerhalb vom `server.py` wird ein Damage drawer Objekt erstellt und mittels der Funktion `get_image` die fertig gerenderte Bilddatei zurückgegeben und auf der Webseite dargestellt.
 
 ## Mögliche Darstellung der Datei in einem Protal
 
+Ein möglicher Einsatzbereich von unserem Projekt könnte ein Portal von einer Versicherung sein. Hier würde bei Autounfällen der Ort von dem Schaden wie auch das Ausmass der Beschädigung aufgezeigt werden. So kann ein Mehrwert in Form von mehr Informationen an dem Kunde einer Autoversicherung entstehen.
 
 ![Anzeige in einem Portal](img/insurance_portal.jpeg "Damage drawer on a Portal")
 
