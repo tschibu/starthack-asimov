@@ -200,7 +200,7 @@ Innerhalb von dem Projekt werden wir die Funktion `get_image` wie folgt benutzt:
 
 Innerhalb vom `server.py` wird ein Damage drawer Objekt erstellt und mittels der Funktion `get_image` die fertig gerenderte Bilddatei zurückgegeben und auf der Webseite dargestellt.
 
-## Mögliche Darstellung der Datei in einem Protal
+## Mögliche Darstellung der Datei in einem Portal
 
 Ein möglicher Einsatzbereich von unserem Projekt könnte ein Portal von einer Versicherung sein. Hier würde bei Autounfällen der Ort von dem Schaden wie auch das Ausmass der Beschädigung aufgezeigt werden. So kann ein Mehrwert in Form von mehr Informationen an dem Kunde einer Autoversicherung entstehen.
 
