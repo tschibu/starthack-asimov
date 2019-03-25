@@ -49,7 +49,7 @@ Am Schluss der Pitches gaben die Judges noch bekannt wie die Sieger erkoren werd
 hat gewonne. Am Schluss zeigten sie uns noch die Bilder der echten crashes. Eine kurze Kopfrechnung ergab das wir (und das andere HSLU Team) ca 2 - 3 der 5 Crashes richtig darstellten - Mit Linear Beschleunigung zu rechnen ist wirklich keine Freude.
 
 Nach den Pitches räumten wir unsere Plätze auf und wartete auf die Siegerverkündung welche auf 14:00 angesetzt war.
-In der Zwischenzeit konnten wir noch von den anderen Annehmlichkeiten des Hackathons, wie Gaming Konsolen, profitieren.
+Wir entschieden uns aber dafür die Ending Ceremony via Livestream zu verfolgen und uns bereits auf den Weg Richtung Luzern zu machen.
 
 ## - 14.00 Uhr - Closing ceremony
 
@@ -59,13 +59,13 @@ Einzig 3 andere Teams stellten Ihre Lösung kurz vor, interessant fand ich das S
 
 https://www.youtube.com/watch?v=dRYWBtBHoKo
 
-Nun war Autosense dran, volle Spannung erwarteten wir die Siegerverkündung.
+Nun war Autosense dran, voller Spannung erwarteten wir die Siegerverkündung.
 2 Teams waren sehr nahe beeinander heisst es. Und das Sieger Team ist... nicht unser Team asimov.
 Aber das Team ipv5 unsere HSLU Kollegen, welchen wir den Sieg natürlich genau so gönnen!
 
 Und ein solider zweiter Platz ist auch vollkommen in Ordnung.
 
-Am Schluss wurden nochmals einige Infos abgegeben zum nächsten Starthack 2020 und dann ging es wieder richtung Luzern.
+Am Schluss wurden nochmals einige Infos abgegeben zum nächsten Starthack 2020.
 
 ## Abschliessende Worte
 
