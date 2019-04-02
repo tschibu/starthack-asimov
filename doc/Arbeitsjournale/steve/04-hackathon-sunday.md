@@ -4,7 +4,7 @@
 
 ## - 02.30 Uhr - Schlafen
 
-Da jemand von einem anderen Team noch ein Hotelzimmer gemietet hat war eine Matratze frei und ich konnte gemütlich ein
+Da jemand von einem anderen Team noch ein Hotelzimmer gemietet hat, war eine Matratze frei und ich konnte gemütlich ein
 paar Stunden schlafen.
 
 ## - 08.00 Uhr - Coding
@@ -17,7 +17,7 @@ Remo hat mithilfe unserer Inputs den Pitch vorbereitet und eine Präsentation er
 
 ## - 10.50 Uhr - Pitch
 
-In einem Nebengebäude fernab von der Luxuriösen Hochschule St.Gallen haben wir unseren Pitch gehalten. Wir hatten ein
+In einem Nebengebäude fernab von der Luxuriösen HSG haben wir unseren Pitch gehalten. Wir hatten ein
 gutes Gefühl. Aber wir haben festgestellt, dass gewisse Teams sehr ähnliche Lösungen implementiert haben.
 
 ## - 11.30 Uhr - Lunch
@@ -34,11 +34,11 @@ direkt abfahren.
 Die Zeremonie gab einen spannenden Überblick über die anderen Projekte die abgeliefert wurden. Wir haben aber gespannt
 auf die Autosense Challenge gewartet. Wir konnten es kaum fassen als unsere Kollegen von der HSLU - das Team ipv5 als
 Sieger verkündet wurde.
-Wir hatten eine sehr ähnliche Lösung, jedoch war ihre noch ein Stück ausgereifter. Wir gratulieren Ihnen und freuen uns
-mit Ihnen über die gewonnene Challenge.
+Wir hatten eine sehr ähnliche Lösung, jedoch war ihre noch ein Stück ausgereifter. Wir gratulieren ihnen und freuen uns
+über die gewonnene Challenge mit.
 
 ## - 15:30 Uhr - Ab nach Hause
 
 Es war eine spannende und interessante Zeit. Jedoch merke ich, dass mein Körper nur noch entspannen will. Zum Glück
-fährt Remo mich direkt an meine Haustüre. Ich muss nur noch Hoch in die Wohnung und mich auf das Sofa legen - mehr habe
-ich nicht mehr gemacht.
+fährt Remo mich direkt zu meiner Haustüre. Ich musste nur noch Hoch, in die Wohnung und mich auf das Sofa legen - mehr
+machte ich nicht mehr.
