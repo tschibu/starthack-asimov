@@ -21,7 +21,7 @@ weiteres umgerechnet werden konnten. Es musste zuerst mittels einer weiteren Hil
 Um 12:00 Uhr ging es dann zum Lunch, Spätzlipfanne mit Speckwürfeln.
 Übrigens, was die Ganze Verpflegung und die Organisation rund um den Hackathon anbelangt: Respekt.
 
-Rund um die Uhr war der hilfsbereite Staff vom STARThack anwesend.
+Rund um die Uhr war der hilfsbereite Staff vom STARTHack anwesend.
 Überall standen Kühlschränke mit Getränken. Und es gab sogar separate, immer volle, RedBull Kühlschränke (ich glaube ich habe 20 RedBull an diesem Wochenende getrunken).
 
 ## - 13.00 Uhr - Hacking / Coding

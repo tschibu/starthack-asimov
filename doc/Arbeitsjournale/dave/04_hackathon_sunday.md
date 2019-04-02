@@ -55,7 +55,7 @@ Wir entschieden uns aber dafür die Ending Ceremony via Livestream zu verfolgen 
 
 ## - 14.00 Uhr - Closing ceremony
 
-Um 14:00 Uhr war es dann soweit. Zuerst zeigte natürlich das STARThack Team einige Impressionen bedankte sich bei allen Partnern.
+Um 14:00 Uhr war es dann soweit. Zuerst zeigte natürlich das STARTHack Team einige Impressionen bedankte sich bei allen Partnern.
 Dann ging es zur Siegerehrung über - leider erhielten wir keinen detaillierten Einblick in die Arbeiten der anderen Teams, was etwas schade war.
 Einzig 3 andere Teams stellten Ihre Lösung kurz vor, interessant fand ich das Sieger Team von Bosch, die eine sehr kreative Lösung präsentierten:
 
@@ -67,7 +67,7 @@ Aber das Team ipv5, unsere HSLU Kollegen, welchen wir den Sieg natürlich genau 
 
 Und ein solider zweiter Platz ist auch vollkommen in Ordnung.
 
-Am Schluss wurden nochmals einige Infos abgegeben zum nächsten STARThack 2020.
+Am Schluss wurden nochmals einige Infos abgegeben zum nächsten STARTHack 2020.
 
 ## Abschliessende Worte
 

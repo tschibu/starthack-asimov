@@ -4,12 +4,12 @@
 
 ## - 14.00 Uhr - Anreise
 
-Um 14:00 Uhr ging es Los. Mit vollbepacktem Auto Richtung STARThack. Auf dem Weg haben wir schon viele Gedanken und Ideen in einem Brainstorming ausgetauscht. Neben den STARThack Challenges gibt es immer die Möglichkeit ein eigenes Projekt zu verfolgen.
+Um 14:00 Uhr ging es Los. Mit vollbepacktem Auto Richtung STARTHack. Auf dem Weg haben wir schon viele Gedanken und Ideen in einem Brainstorming ausgetauscht. Neben den STARTHack Challenges gibt es immer die Möglichkeit ein eigenes Projekt zu verfolgen.
 Wir einigten uns darauf die Challenges abzuwarten bevor wir uns festlegen, den mit den aufgelisteten Partnern wie Microsoft, Swisscom & Bosch ist definitiv ein grosses Potential für spannende Projekte vorhanden.
 
 ## - 16.00 Uhr - Anmeldung und Einrichten
 
-Wir sind an der Uni St. Gallen angekommen und suchen zuerst mal einen Parkplatz, an dem wir unser Ganzes Material abladen können. Nachdem wir einen geeigneten "HSLU Ecken" an der Uni St. Gallen gefunden haben, ging es weiter zur Akkreditierung, wo wir unser Team registrieren konnten und unsere STARThack Pässe erhielten.
+Wir sind an der Uni St. Gallen angekommen und suchen zuerst mal einen Parkplatz, an dem wir unser Ganzes Material abladen können. Nachdem wir einen geeigneten "HSLU Ecken" an der Uni St. Gallen gefunden haben, ging es weiter zur Akkreditierung, wo wir unser Team registrieren konnten und unsere STARTHack Pässe erhielten.
 Als nächster Punkt auf der Tagesordnung stand die Opening Ceremony sowie die Präsentation der Challenges.
 Bis dahin, richteten wir unsere Arbeitsplätze noch optimal ein. Bildschirm, Maus und Tastatur werden installiert.
 Der Raspberry bleibt vorerst noch in der Tasche.

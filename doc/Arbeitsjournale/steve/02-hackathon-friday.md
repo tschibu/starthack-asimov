@@ -1,6 +1,6 @@
 # Freitag 7. März 2019
 
-*Anreise, Anmeldung & Einrichten, Zeremonie, Brainstorming & Dinner, Präsentationen, Planung, STARThack*
+*Anreise, Anmeldung & Einrichten, Zeremonie, Brainstorming & Dinner, Präsentationen, Planung, STARTHack*
 
 ## - 14.00 Uhr - Anreise
 
@@ -43,7 +43,7 @@ Wir haben lange diskutiert und haben uns schlussendlich für den AutoSense Case 
 war was zu tun ist und unsere Skills dazu passten. Ich finde das es bis jetzt sehr gut harmoniert im Team und freue mich
 endlich loszulegen und in die Tasten zu hauen.
 
-## - 23.30 Uhr - STARThack
+## - 23.30 Uhr - STARTHack
 
 Da das Ganze aber kein Wunschkonzert ist, musste sich jedes Team ein Web Formular ausfüllen und die Prioritäten pro
 Challenge angeben. Die Organisatoren haben entschieden wer welche Challenge bestreitet.
