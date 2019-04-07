@@ -13,15 +13,20 @@ Die 'Crash Info' API Request ist dazu da den 'impactAngle' (Winkel des Einschlag
 Die Daten werden als JSON verpackt und zurückgegeben.
 
 Der Python Code dazu sieht folgendermaßen aus:
+
 ```Python
-# POST request 1 - returns JSON {"impactAngle": degrees, "offsetMaximumForce": millisecond}
+# POST request 1 - returns JSON:
+# {"impactAngle": degrees, "offsetMaximumForce": millisecond}
 @app.route('/api/v1/getCrashInfo', methods=['POST',])
 async def crash_info(request):
     ''' crash info parses the crash record and returns a JSON object '''
     log.info("Handling '/api/v1/getCrashInfo'")
 
-    angle, max_force_offset, _, _, _ = DataParser().parse_input_data(request.body.decode('utf8'))
-    return json({'impactAngle': angle, 'offsetMaximumForce': max_force_offset})
+    angle, max_force_offset, _, _, _ =
+    DataParser().parse_input_data(request.body.decode('utf8'))
+
+    return json({'impactAngle': angle,
+                 'offsetMaximumForce': max_force_offset})
 ```
 
 Es ist eine Asynchrone Methode welche als 'POST' Request markiert ist und die 'api/v1/getCrashInfo' Route nutzt. Die
@@ -34,6 +39,7 @@ Objekt und gibt somit die Antwort der Request an den Sender zurück.
 Die Crash Image Methode gibt ein Bild zurück welches den Einschlag und die Maximale Kraft des Umfalls illustriert.
 
 Der Python Code dazu sieht folgendermassen aus:
+
 ```python
 # POST request 2 - returns a rendered crash image (PNG)
 @app.route('/api/v1/getCrashImage', methods=['POST',])
@@ -49,8 +55,13 @@ async def crash_image(request):
 
     log.info("Set customOffset: " + str(customOffset) + "ms")
 
-    angle_impact, max_force, damage_id, crash_time, max_force_offset = DataParser().parse_input_data(request.body.decode('utf8'), custom_offset=customOffset)
-    d = DamageImage(angle_impact, max_force, damage_id, crash_time, max_force_offset)
+    angle_impact, max_force, damage_id, crash_time, max_force_offset =
+    DataParser().parse_input_data(
+                        request.body.decode('utf8'),
+                        custom_offset=customOffset)
+
+    d = DamageImage(angle_impact, max_force, damage_id,
+                    crash_time, max_force_offset)
     return await file(d.get_image())
 ```
 
@@ -69,6 +80,7 @@ müssen und nicht gestreamt wird.
 
 ## Frontend
 Das Frontend ist sehr simple Aufgebaut:
+
 ![Frontend Design](img/frontend.png "FrontEnd Design")
 
 Das wichtigste ist die Drag & Drop Zone um ein JSON File von autoSense hochzuladen. Sobald man ein valides JSON
@@ -76,6 +88,7 @@ hochgeladen hat werden im Hintergrund die beiden API Requests an das Backend gem
 eingestellt werden nicht die MaximalKraft sondern einen anderen Zeitpunkt des Aufpralls darzustellen.
 
 Frontend mit hochgeladenem JSON:
+
 ![Frontend mit geladenem JSON](img/frontend_loaded.png "FrontEnd mit geladenem JSON")
 
 
@@ -87,14 +100,16 @@ werden und ein Proxy dazwischen geschaltet wird.
 
 Unser Dockerfile, welches das Image beschreibt, sieht folgendermassen aus:
 
-```docker
+```bash
 FROM python:3.7-slim
 
 #Install libs and tools needed for building python wheels
 RUN apt-get update
 RUN yes | apt-get install build-essential
-RUN yes | apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-RUN yes | apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev
+RUN yes | apt-get install cmake git libgtk2.0-dev \
+          pkg-config libavcodec-dev libavformat-dev libswscale-dev
+RUN yes | apt-get install python-dev python-numpy libtbb2 libtbb-dev \
+          libjpeg-dev libpng-dev
 
 #Install python dependencies
 COPY requirements.txt /app/
