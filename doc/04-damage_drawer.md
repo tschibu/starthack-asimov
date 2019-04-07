@@ -6,17 +6,17 @@ Mit der Klasse DamageImage (File: `damage_image.py`) werden alle Funktionalität
 
 ## Funktiondesign
 
-### Software Abhängigkeiten 
+### Software Abhängigkeiten
 
 Für die Erkennung der Kulturen wurde die Bildverarbeitungs Library OpenCV (Open Source Computer Vision Library) verwendet. Die Kulturen werden verwendet um den Eintrittspunkt der Beschädigung zu berechnen.
 
 Für die Berechnung innderhalb der Klasse DamageImage wurde auf die bekannte Python Library Numpy (http://www.numpy.org) zurückgefriffen.
 
-Die Python Standardbibliothek `os` / `math` / `shutil` werden für kleinere Funktionen benötigt. 
+Die Python Standardbibliothek `os` / `math` / `shutil` werden für kleinere Funktionen benötigt.
 
-### Prozess des Funktiondesigns 
+### Prozess des Funktiondesigns
 
-Zu Beginn wurde mittels OpenCV die Datei eingelesen und hardcoded ein Kreis und ein Pfeil gezeichnet. Mit dieser Version haben wir dann im Teamm das Zieldesign der Bilddatei mittels iPad und Pen gezeichnet. 
+Zu Beginn wurde mittels OpenCV die Datei eingelesen und hardcoded ein Kreis und ein Pfeil gezeichnet. Mit dieser Version haben wir dann im Teamm das Zieldesign der Bilddatei mittels iPad und Pen gezeichnet.
 
 |Erste Version Damage Image                                                         |
 |:---------------------------------------------------------------------------------:|
@@ -40,23 +40,24 @@ Teilfunktion: Damage Image
 ### Methode: Init
 
 ```python
-def __init__(self, angle_impact, max_force, damage_id, crash_time, max_force_offset=None):
+def __init__(self, angle_impact, max_force, damage_id,
+             crash_time, max_force_offset=None):
 ```
 
 Die Init Methode wird aufgerufen bei der Instanzierung von einem Objekt. Als Parameter werden folgende Informationen benötigt:
 
-| Paramenter               | Beschreibung
-|--------------------------|------------------------------------------------------------------------------------------------------------|
-| `self`                   | Instanz-Referenz                                                                                           |
-| `angle_impact`           | Winkel in Grad. Mit diesem Winkel wird der Aufprall der Beschädigung gezeichnet.                           |
-| `max_force`              | Numerischer Wert mit dem die Grösse der Beschädigung am Auto berechnet wird.                               |
-| `damage_id`              | String. Eindeutiger Crash-Report ID                                                                        |
-| `crash_time`             | String. Uhrzeit für die Beschriftung auf dem Bild                                                          |
-| `max_force_offset`       | Numerischer Wert. Zeitpunkt, nach wie vielen Millisekunden die Beschädigung berechnet wurde (Default=None) |
+| Parameter                  | Beschreibung
+|----------------------------|------------------------------------------------------------------------------------------------------------|
+| `self`                     | Instanz-Referenz                                                                                           |
+| `angle_impact`             | Winkel in Grad. Mit diesem Winkel wird der Aufprall der Beschädigung gezeichnet.                           |
+| `max_force`                | Numerischer Wert mit dem die Grösse der Beschädigung am Auto berechnet wird.                               |
+| `damage_id`                | String. Eindeutiger Crash-Report ID                                                                        |
+| `crash_time`               | String. Uhrzeit für die Beschriftung auf dem Bild                                                          |
+| `max_force_offset`         | Numerischer Wert. Zeitpunkt, nach wie vielen Millisekunden die Beschädigung berechnet wurde (Default=None) |
 
-Mit den Methoden Parameter werden die jewiligen lokalen / privaten Methodenvariabeln initialisiert und den Wert zugewiesen. Weiter wir de Pfad wo die Bilddatei gespeichert wird aufgrund der `damage_id` und der allfälligen `max_force_offset`. Die Dateine werden in einem speziell definierten Ort (`images_rendered/`) gespeichert. Dies hat den Grund, dass wenn die Bilddatei von den gleichen Crash-Report und dem gleichen `max_force_offset` nicht nochmals neu erstellen und schreiben muss, sondern direkt zurückgeben kann. 
+Mit den Methoden Parameter werden die jewiligen lokalen / privaten Methodenvariabeln initialisiert und den Wert zugewiesen. Weiter wir de Pfad wo die Bilddatei gespeichert wird aufgrund der `damage_id` und der allfälligen `max_force_offset`. Die Dateine werden in einem speziell definierten Ort (`images_rendered/`) gespeichert. Dies hat den Grund, dass wenn die Bilddatei von den gleichen Crash-Report und dem gleichen `max_force_offset` nicht nochmals neu erstellen und schreiben muss, sondern direkt zurückgeben kann.
 
-### Methode: Kulturen Auto 
+### Methode: Kulturen Auto
 
 ```python
 def __cut_car(self):
@@ -79,7 +80,7 @@ def __draw(self):
 |--------------------|------------------------------------------------------------------------------------------------------------|
 | `self`             | Instanz-Referenz                                                                                           |
 
-Die generelle Zeichnungsmethode `__draw` ist als Wrapper Methode zu verstehen. Wenn gegebenenfalls noch weitere Beschriftungen auf die Bilddatei geschrieben werden soll, kann dies hier eingefügt werden. Hier passiert auch die Entscheidung ob der Text für den Offset der Millisekunten angezeigt wird oder nicht.
+Die generelle Zeichnungsmethode `__draw` ist als Wrapper Methode zu verstehen. Wenn gegebenenfalls noch weitere Beschriftungen auf die Bilddatei geschrieben werden soll, kann dies hier eingefügt werden. Hier passiert auch die Entscheidung ob der Text für den Offset der Millisekunden angezeigt wird oder nicht.
 
 
 ### Methode: Zeichnen - Pfeil
@@ -108,16 +109,16 @@ def __draw_circle(self):
 Der Kreis für die für die Grösse der Beschädigung wird hier auf die Bilddatei gezeichnet. Die Grösse von dem Kreis (Radius) wird mit Hilfe der Funktion `__dynamic_damage_calc` berechnet.
 
 
-### Methode: Text auf das Bild 
+### Methode: Text auf das Bild
 
 ```python
 def __add_text(self, off_set_in_milliseconds):
 ```
 
-| Paramenter                            | Beschreibung
-|---------------------------------------|----------------------------------------------------------------------------------------------|
-| `self`                                | Instanz-Referenz                                                                             |
-| `off_set_in_milliseconds`             | Numerischer Wert. Zeitpunkt, nach wie vielen Millisekunden die Beschädigung berechnet wurde  |
+| Paramenter                              | Beschreibung
+|-----------------------------------------|----------------------------------------------------------------------------------------------|
+| `self`                                  | Instanz-Referenz                                                                             |
+| `off_set_in_milliseconds`               | Numerischer Wert. Zeitpunkt, nach wie vielen Millisekunden die Beschädigung berechnet wurde  |
 
 
 Auf der resultierende Bilddatei werden folgende Informationen dargestellt:
@@ -189,7 +190,7 @@ def show_image(self):
 |--------------------|------------------------------------------------------------------------------------------------------------|
 | `self`             | Instanz-Referenz                                                                                           |
 
-Die `show_image` dient für eine rasche Entwicklung ohne Server. Sie führt die gleichen Methoden aus, wie die Methode `get_image` mit dem Unterschied, dass die Bilddatei nicht an den Server zurückgegeben wird sondern mittels OpenCV an dem Display angezeigt wird. So kann Abhängigkeit vom Server neue Funktionen rasche getestet werden.  
+Die `show_image` dient für eine rasche Entwicklung ohne Server. Sie führt die gleichen Methoden aus, wie die Methode `get_image` mit dem Unterschied, dass die Bilddatei nicht an den Server zurückgegeben wird sondern mittels OpenCV an dem Display angezeigt wird. So kann Abhängigkeit vom Server neue Funktionen rasche getestet werden.
 
 
 ## Implementierung im Projekt

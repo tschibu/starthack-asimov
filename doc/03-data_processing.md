@@ -3,19 +3,19 @@
 
 ## Funktionsumfgang
 
-Mit der Klasse Data_Parser werden alle Funktionalitäten im Zusammenhang mit der Datenverarbeitung, AUswertung und Konvertierung erledigt.  
+Mit der Klasse Data_Parser werden alle Funktionalitäten im Zusammenhang mit der Datenverarbeitung, AUswertung und Konvertierung erledigt.
 Das beinhaltet das einlesen der JSON Daten, ausfiltern der relevanten Key:Value Paare, transformieren der relativen Werte sowie die mathematischen Umrechnungen auf die geforderten Output Daten (Kraft & Winkel des Einschlags)
 
-### Software Abhängigkeiten 
+### Software Abhängigkeiten
 
-Zum auslesen der JSON Daten wurde die Python Library `json` verwendet. Zur Decodierung und Encodierung wurde das base64 Format verwendet. 
+Zum auslesen der JSON Daten wurde die Python Library `json` verwendet. Zur Decodierung und Encodierung wurde das base64 Format verwendet.
 Für die Mathematischen umrechnungen wurden die Libraries `math`, `pandas` sowie `numpy` verwendet.
 
 Für die Umrechnung der relativen Zeiten konnte auf die Standard Library `datetime zurückgegeriffen werden.
 
 Um während dem Testing ein sauberes Logging zu erhalten, wurde auch hier unsere gemeinsame Log Klasse `log_helper` eingebunden.
 
-### Prozess des Funktiondesigns 
+### Prozess des Funktiondesigns
 
 Zu Beginn werden die JSON Input Daten eingelesen und der Payload extrahiert. dieser wird mit base64 decodiert und danach die relevanten Key:Value Paare (Beuschlunigung x,y,z) ausgelesen.
 Diese Daten werden danach mit einer vordefinierten Kalibration transformiert und mit einem Referenz-G Wert in G-Kräfte umgewandelt.
@@ -43,7 +43,7 @@ def parse_input_data(self, file_path, calibration=True, custom_offset=0):
 | `self`             | Instanz-Referenz                                                                                            |
 | `file_path`        | Das Input JSON File, entweder als Pfad zum Filesystem oder direkt als Objekt                                |
 | `calibration`      | Angabe ob die Werte mit oder ohne Kalibration berechnet werden sollen                                       |
-| `custom_offset`    | Spezifische Offsettime (im Range 0 - 16000). Ohne Angabe wir der Offset mit der grössten G-Kraft verwendet |                                                      
+| `custom_offset`    | Spezifische Offsettime (im Range 0 - 16000). Ohne Angabe wir der Offset mit der grössten G-Kraft verwendet |
 
 
 Die Methode `parse_input_data` wird von extern verwendet und führt alle Teilfunktionen zusammen. Das JSON File wird entweder als Objekt oder als Filepath übergeben und danach verarbeitet. Zusätzlich besteht die Möglichkeit die Berechnungen ohne Kalibration auszuführen (nur für Testzwecke nützlich). Ausserdem kann via `custom_offset` ein beliebiger Offset in Millisekunden angegeben werden, standardmässig werd der Zeitpunkt der grössten Krafteinwirkung selbst berechnet.
@@ -56,8 +56,8 @@ Als Rückgabeparameter liefert die Methode:
 | `angle_impact`     | Einschlagswinkel                                                                                            |
 | `max_force`        | Die maximale G-Kraft                                                                                        |
 | `damage_id`        | Die Crash ID aus dem JSOn File                                                                              |
-| `crash_time`       | Die Genaue Zeit des Einschlags mit Maximaler Kraft                                                          | 
-| `max_force_offset` | Den Offset zum Beginn des EInschlags bis Maximal Kraft erreicht wurde                                       | 
+| `crash_time`       | Die Genaue Zeit des Einschlags mit Maximaler Kraft                                                          |
+| `max_force_offset` | Den Offset zum Beginn des EInschlags bis Maximal Kraft erreicht wurde                                       |
 
 
 ### Methode: get_rel_times
@@ -196,7 +196,8 @@ Die Methode `__calculate_custom_offset_force` berechnet, wann die Kraft zu einem
 ### Methode: __calculate_angle
 
 ```python
-def __calculate_angle(self, index, predicted_impact_time, rel_time, rx, ry):
+def __calculate_angle(self, index,
+                      predicted_impact_time, rel_time, rx, ry):
 ```
 
 | Paramenter              | Beschreibung
