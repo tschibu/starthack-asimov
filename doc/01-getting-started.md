@@ -1,54 +1,58 @@
 
 # Getting Started
 
-## Challenges
-
-There were 8 different challenges which you could apply.
-We were mainly interested in the Challenges from the following partners:
-
-- Autosense (Crash Visualization)
-- SBB (Recylce)
-- Laica (AR)
-- BOSCH IOT-Lab (Sensor Car)
+## Inspiration
+Die Challenge von autoSense (autoSense ist eine Tochtergesellschaft der Swisscom AG) hatte wir bereits ein breites Wissen von Teilaufgaben, wie Physik, Visualisierung, Präsentation und Kommunikation durch Webtechnologien. Das war dann auch unsere Motivation, uns in dieser Challenge zu messen.
 
 
-Alls case descriptions can be viewed here:
-http://live.starthack.ch/case-descriptions/
+## Um was geht es?
+Die Lösung empfängt JSON-Dateien über eine REST API. Als Ergebnis soll die
+Beschädigung, die auf das Auto eingewirkt hat, visualisiert werden. Die Visualisierung soll noch mit zusätzlichen
+Informationen wie G-Force, Zeitpunkt des Crashs und dem Offset in der Zeitreihe angereichert werden.
 
 
-We applied for the Autosense challenge and got it (limit of 15 Teams per challange).
-The challenge is as follow:
+## Wie wurde es umgesetzt?
+Als Fundament haben wir einen Webserver (sanic) verwendet, um die API-Aufrufe zu implementieren. Im Hintergrund sind
+alle Funktionen und Klassen mit Python implementiert. Für die Visualisierung haben wir uns für OpenCV 4.0 entschieden. Wir haben das
+gesamte Projekt auch als Docker Image umgesetzt, so dass es überall und jederzeit eingesetzt werden kann.
+
+Um dem Projekt einige Extras hinzuzufügen, haben wir uns entschieden, ein kleines, übersichtliches Web UI zu erstellen, in dem wir grundlegende HTML5, CSS und natürlich Javascript verwendet haben.
 
 
-## AUTOSENSE / VOLVO Challenge
-
-*Generate Car Crash Image, visualize impact and direction using sensor data*
-
-**Your challenge if you choose to accept:**
-
-Build Microservice(s) to generate Image with 3D object simulating impact forces for given time offset (from crash). Deploy Microservice(s) on Swisscom Application Cloud (cloud foundry). Provide API(s) for submitting Input data (stream) and getting the Result. Generate output for each submitted Crash Record : Direction of the impact (Impact angle and energy), visualize the damage show expected place of impact on car
+## Herausforderungen
+Die Mathematik, um den Aufprall zu berechnen, hat definitiv sehr viel Zeit in Anspruch genommen.
+Wir haben manchmal einige komische Werte bekommen - dass lag zum Teil daran, dass wir auf ein Transformation-Problem gestossen sind. Nach der Behebung von diesen Problemen sahen dann die Visualisierungen einheitlicher aus.
 
 
-**Winner is the Team who:**
-
-Has identified the maximum number of crashes correctly providing - Correct impact direction & Most accurate 3D simulation (compared to real crash picture)
-
-
-**How it will be measured:**
-
-For each submitted Crash Record AND time offset, generate Image with Direction of the impact (Impact angle and energy), Visualized damage and Time offset with the maximum force/damage on the object. Crash Record is submitted to the service. The calculated impact direction will be compared with pictures from real crash.
+## Accomplishments
+Wir sind stolz darauf:
+* Solide Mathematik
+* maintainable Code
+* Clean Code
+* Visualisierung
 
 
-**Restrictions:**
-
-Service must be deployable on cloud infrastructure (AWS/Cloud Foundry/Kubernetes/Docker). Service should use as few as possible external APIs. Given Data Models and API POST Requests structure must be used.
-
-
-## Setup
-
-xxxxx
+## Was wir gelernt haben
+Wir haben viel Mathematik/Physik angewendet, das meiste haben wir in der Schule einmal gelernt aber nie richtig angewendet.
+Der Hackathon war für als Gruppe ausserdem ein wirklich gutes Training. Wir haben gelernt, wie man besser und effizienter miteinander zusammenarbeitet, um ein grösseres Projekt wie die autoSense-Challenge anzugehen.
 
 
-```bash
-pwd
-```
+## What's next?
+Als nächstes wollen wir unsere Lösung aufpolieren. Wir würden gerne noch ein paar Crash-Daten und ein paar Realbilder
+einholen, um damit zu überprüfen, ob wir die richtigen Dinge berechnet haben. Außerdem gibt es einen Azure Webspace der
+darauf wartet, dass unsere App veröffentlicht wird.
+
+
+## Built with <3 and:
+* Python
+* Docker
+* vanillaJS
+* HTML5
+* CSS
+* Microsoft Azure
+* OpenCV
+* Web Framework 'sanic'
+
+
+## Github Repository
+[STARThack Team 'asimov' Github Repository](https://github.com/tschibu/starthack-asimov "STARThack Team 'asimov' Github Repository")
