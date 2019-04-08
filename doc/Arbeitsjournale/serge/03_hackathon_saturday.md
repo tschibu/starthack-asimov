@@ -21,7 +21,7 @@ Danach geht es wieder an die Arbeit. Wir analysieren die Sensor-Daten und überl
 
 ## - 12.00 Uhr - Lunch
 
-Am Mittag stärken wir uns mit Spätzli und Speck. Lecker.
+Am Mittag stärken wir uns mit Reis und Chili con Carne. Lecker.
 
 ## - 13.00 Uhr - Coding
 
