@@ -33,8 +33,11 @@ Die Präsentation wurde von dem ganzem Team vor der kleinen Jury gehalten. Die J
 
 ## - 14.00 Uhr (15.00 Uhr) - Closing Ceremony / Rückreise
 
-Um 11.00 Uhr hat die Jury dann die Info der Platzierung von unserer Challenge an den Veranstalter übergeben und es wurde bekannt, dass die Closing Ceremony eine Stunde nach hinten, also anstelle 14.00 Uhr auf 15.00 Uhr, verschoben wurden. Wir kontaktierten dann die Jury, um herauszufinden ob wir eher noch die vier Stunden in St. Gallen warten sollten oder eher bereits die Rückreise in Angriff nehmen könnten.
-Uns wurde durch die Blume mitgeteilt, dass wir nicht gewonnen haben und so entschlossen wir uns, nach dem Mittagessen zurück in die Zentralschweiz zu fahren und die Closing Ceremony im Auto via Instagram-Live mitzuverfolgen.
+Um 11.00 Uhr hat die Jury dann die Info der Platzierung von unserer Challenge an den Veranstalter übergeben. Nun haben
+wir gespannt auf die Closing Ceremony gewartet. Als es endlich soweit war (nach einer Stunde Verspätung) konnten wir es
+kaum erwarten, dass der Sieger der autoSense Challenge nominiert wird.
+Es ist das Team 'ipv5', ebenfalls von der HSLU, welches gewonnen hat. Wir waren wohl das zweitbeste Team laut
+autoSense. Für den Sieg hat es aber nicht geklappt. Wir gratulieren aber Team 'ipv5' und gönnen Ihnen den Sieg.
 
 ## - Abschluss
 
