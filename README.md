@@ -1,8 +1,9 @@
 # STARTHack 2019 - Team Asimov
 
-## Some Links:
+Links:
 
 Webseite: https://starthack.ch
+
 Slack: https://starthack19.slack.com
 
 ## Usage:
