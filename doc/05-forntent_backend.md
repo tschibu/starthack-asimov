@@ -6,7 +6,10 @@ auch berücksichtig werden sollte, haben wir für diese Teilaufgabe Docker genut
 überall laufen gelassen werden, wo Docker installiert ist. Heutzutage ist das eine gängige Art und Weise
 etwas auf einem Server laufen zu lassen und bietet dazu auch die Möglichkeit eine Applikation zu skalieren
 
+
 ## REST API Requests
+
+
 ### Crash Info
 Die 'Crash Info' API Request ist dazu da den 'impactAngle' (Winkel des Einschlags beim Crash) und den
 'offsetMaximumForce' (die Maximalkraft die eingewirkt hat) zurückzugeben.
@@ -34,6 +37,7 @@ Annotationen werden von dem 'sanic' Framework bereitgestellt.
 Ein Log Eintrag hilft beim analysieren. Die Hauptarbeit wird aber in dem 'DatenParser' gemacht welche alle relevanten
 Daten zurückgibt. Die Daten (autoSense JSON) für den 'DataParser' werden mithilfe der Request übergeben. Die letzte Zeile baut ein JSON
 Objekt und gibt somit die Antwort der Request an den Sender zurück.
+
 
 ### Crash Image
 Die Crash Image Methode gibt ein Bild zurück welches den Einschlag und die Maximale Kraft des Umfalls illustriert.
@@ -71,6 +75,7 @@ Der 'DatenParser' übernimmt wieder die Hauptaufgabe von dieser Request.
 Zusätzlich wir die 'DamageImage' Klasse zum generieren des Bildes verwendet. Anschliessend wird das generierte Bild
 zurückgegeben
 
+
 ### Play
 Zusätzlich zur gegebenen Aufgabenstellung haben wir noch eine Request eingebaut, welche mehrere Bilder zurückgegeben um
 den Unfall genauer zu inspizieren.
@@ -78,10 +83,15 @@ Es wird quasi das selbe gemacht wie bei der 'Crash Image' Request. Nur wird eine
 dann im Browser dargestellt werden können. Diese Methode ist nicht optimal da alle Bilder zuerst berechnet werden
 müssen und nicht gestreamt wird.
 
+
 ## Frontend
 Das Frontend ist sehr simple Aufgebaut:
 
-![Frontend Design](img/frontend.png "FrontEnd Design")
+|Frontend Design                                                                    |
+|:---------------------------------------------------------------------------------:|
+|![Frontend Design](img/frontend.png "FrontEnd Design"){ width=400px }              |
+
+
 
 Das wichtigste ist die Drag & Drop Zone um ein JSON File von autoSense hochzuladen. Sobald man ein valides JSON
 hochgeladen hat werden im Hintergrund die beiden API Requests an das Backend gemacht. Anschliessend wird das Bild und die Daten (Filename, impactAngle & offsetMaximumForce) angezeigt. Optional kann noch der 'customOffset'
@@ -89,8 +99,9 @@ eingestellt werden nicht die MaximalKraft sondern einen anderen Zeitpunkt des Au
 
 Frontend mit hochgeladenem JSON:
 
-![Frontend mit geladenem JSON](img/frontend_loaded.png "FrontEnd mit geladenem JSON")
-
+| Frontend mit geladenem JSON                                                                             |
+|:-------------------------------------------------------------------------------------------------------:|
+|![Frontend mit geladenem JSON](img/frontend_loaded.png "FrontEnd mit geladenem JSON"){ width=400px }     |
 
 ## Docker
 Docker ist ein Tool um Images zu kreieren, welche dann in einem Container ausgeführt werden können. Somit kann eine

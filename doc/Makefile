@@ -1,5 +1,5 @@
 PDFPARAMS=--toc -N -s -t latex --pdf-engine=xelatex -f markdown-implicit_figures -V documentclass=scrreprt -V papersize=a4 -V lang=de -V urlcolor=blue -V linkcolor=blue -V geometry:margin=2.54cm
-FONTS=-V mainfont='DejaVu Serif' -V sansfont='DejaVu Sans' -V monofont='DejaVu Sans Mono'
+FONTS=-V mainfont='DejaVu Serif' -V sansfont='DejaVu Sans' -V monofont='DejaVu Sans Mono' -V fontsize=10pt
 DATE=-V date="`date +'%Y-%m-%d'`"
 
 all: clean pdf
