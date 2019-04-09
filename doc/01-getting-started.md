@@ -2,11 +2,11 @@
 # Getting Started
 
 ## Inspiration
-Die Challenge von autoSense (autoSense ist eine Tochtergesellschaft der Swisscom AG) hatte wir bereits ein breites Wissen von Teilaufgaben, wie Physik, Visualisierung, Präsentation und Kommunikation durch Webtechnologien. Das war dann auch unsere Motivation, uns in dieser Challenge zu messen.
+Die Challenge von autoSense (autoSense ist eine Tochtergesellschaft der Swisscom AG) bot Teilaufgaben wie physikalische Berechnungen, Visualisierung, Präsentation und Kommunikation durch Webtechnologien, zu welchen wir bereits ein fundiertes Wissen besassen. Das war dann auch unsere Motivation, uns in dieser Challenge zu messen.
 
 
 ## Um was geht es?
-Die Lösung empfängt JSON-Dateien über eine REST API. Als Ergebnis soll die
+Die Lösung empfängt JSON-Dateien von Auto-Unfall-Daten über eine REST API. Als Ergebnis soll die
 Beschädigung, die auf das Auto eingewirkt hat, visualisiert werden. Die Visualisierung soll noch mit zusätzlichen
 Informationen wie G-Force, Zeitpunkt des Crashs und dem Offset in der Zeitreihe angereichert werden.
 
@@ -16,7 +16,7 @@ Als Fundament haben wir einen Webserver (sanic) verwendet, um die API-Aufrufe zu
 alle Funktionen und Klassen mit Python implementiert. Für die Visualisierung haben wir uns für OpenCV 4.0 entschieden. Wir haben das
 gesamte Projekt auch als Docker Image umgesetzt, so dass es überall und jederzeit eingesetzt werden kann.
 
-Um dem Projekt einige Extras hinzuzufügen, haben wir uns entschieden, ein kleines, übersichtliches Web UI zu erstellen, in dem wir grundlegende HTML5, CSS und natürlich Javascript verwendet haben.
+Um dem Projekt einige Extras hinzuzufügen, haben wir uns entschieden, ein kleines, übersichtliches Web UI zu erstellen, in dem wir grundlegendes HTML5, CSS und natürlich JavaScript verwendet haben.
 
 
 ## Herausforderungen
@@ -27,7 +27,7 @@ Wir haben manchmal einige komische Werte bekommen - dass lag zum Teil daran, das
 ## Accomplishments
 Wir sind stolz darauf:
 * Solide Mathematik
-* maintainable Code
+* Maintainable Code
 * Clean Code
 * Visualisierung
 

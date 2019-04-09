@@ -3,7 +3,7 @@
 ## Arbeitspakete
 
 Um die Arbeiten besser auf die jeweiligen Team-Mitglieder aufzuteilen haben wir am Freitag Abend folgende Arbeitspakete definiert.
-_Die Arbeitpakete wurde 1:1 von dem Projekt-Meeting am Freitag Abend übernommen_
+_Die Arbeitspakete wurden 1:1 vom Projekt-Meeting am Freitag Abend übernommen_
 
 ```
 * Data Parsing (transform in more structured way -> acceleration, calibration)
@@ -32,5 +32,5 @@ _Die Arbeitpakete wurde 1:1 von dem Projekt-Meeting am Freitag Abend übernommen
 
 ## Zuteilung der Arbeitspakete
 
-Nach dem wir die AP (Arbeitspakete) definiert haben, konnte jeder sein präferiertes AP wählen. Die Aufteilung hat bei uns sehr gut funkioniert und wir konnten auf Anhieb jedes AP zu einer Person zuweisen.
+Nach dem wir die AP (Arbeitspakete) definiert haben, konnte jeder sein präferiertes AP wählen. Die Aufteilung hat bei uns sehr gut funkioniert und wir konnten auf Anhieb jedes AP einer Person zuweisen.
 
