@@ -9,3 +9,5 @@ Das Wichtigste und wahrscheinlich einzige zwingend notwendige Utensil, das dabei
 
 ## User
 In der FAQ des START Hacks auf die Frage, was man denn alles mitnehmen soll, stand ausserdem, dass man im Vorfeld gut schlafen und gut erholt an den Hack kommen soll. Leider hatte ich im Vorfeld keine Zeit, dies noch aufzutreiben und nehme stattdessen akuten Schlafmangel mit. Das fängt ja schon mal gut an...
+
+\pagebreak

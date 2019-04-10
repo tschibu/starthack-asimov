@@ -35,3 +35,5 @@ Es gibt Pizza - hurra! Ich genehmige mir eine zweite Portion.
 
 Wir coden weiter. Wir arbeiten daran, die verschiedenen Komponenten unseres Systems nun zusammenzufügen: Der Webservice schickt zuerst die Eingangsdaten an den Data-Parser, welcher dann die gesuchten Werte berechnet und zurück gibt und anhand dieser dann das generierte Bild vom Crash-Image-Modul erhält.
 Soweit so gut; nun geht es ans Korrigieren, Verbessern und Optimieren; ausserdem entwickeln wir noch ein Web Interface für den Webservice.
+
+\pagebreak
