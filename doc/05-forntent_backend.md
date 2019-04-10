@@ -1,18 +1,18 @@
 # REST API und Frontend
 Für die Challenge ist eine REST API notwendig. Diese ist genau spezifiziert und beinhaltet zwei vorgeschriebene
-Requests. Wir haben im Verlauf vom Projekt noch ein UI gemacht, um die eigentlichen Requests zu testen und
-dem User eine einfache Verwendung zu gewährleisten. Da in der Challenge auch noch erwähnt ist, dass das Hosting
-auch berücksichtig werden sollte, haben wir für diese Teilaufgabe Docker genutzt. Die Applikation kann so
+Funktionen. Wir haben im Verlauf des Projekts noch ein UI gemacht, um die Requests einfacher testen zu können und
+dem User eine einfache Verwendung zu bieten. Da in der Challenge erwähnt wird, dass das Hosting
+auch berücksichtig werden sollte, verwenden wir Docker; die Applikation kann dadurch
 überall laufen gelassen werden, wo Docker installiert ist. Heutzutage ist das eine gängige Art und Weise
-etwas auf einem Server laufen zu lassen und bietet dazu auch die Möglichkeit eine Applikation zu skalieren
+etwas auf einem Server laufen zu lassen und bietet dazu auch die Möglichkeit, die Applikation zu skalieren
 
 
 ## REST API Requests
 
 
 ### Crash Info
-Die 'Crash Info' API Request ist dazu da den 'impactAngle' (Winkel des Einschlags beim Crash) und den
-'offsetMaximumForce' (die Maximalkraft die eingewirkt hat) zurückzugeben.
+Die 'Crash Info' API Funktion ist dazu da, den 'impactAngle' (Winkel des Einschlags beim Crash) und den
+'offsetMaximumForce' (die Maximalkraft, die eingewirkt hat) zurückzugeben.
 Die Daten werden als JSON verpackt und zurückgegeben.
 
 Der Python Code dazu sieht folgendermaßen aus:
@@ -32,15 +32,15 @@ async def crash_info(request):
                  'offsetMaximumForce': max_force_offset})
 ```
 
-Es ist eine Asynchrone Methode welche als 'POST' Request markiert ist und die 'api/v1/getCrashInfo' Route nutzt. Die
+Crash_info ist eine Asynchrone Methode welche als 'POST' Request markiert ist und die 'api/v1/getCrashInfo' Route nutzt. Die
 Annotationen werden von dem 'sanic' Framework bereitgestellt.
-Ein Log Eintrag hilft beim analysieren. Die Hauptarbeit wird aber in dem 'DatenParser' gemacht welche alle relevanten
-Daten zurückgibt. Die Daten (autoSense JSON) für den 'DataParser' werden mithilfe der Request übergeben. Die letzte Zeile baut ein JSON
-Objekt und gibt somit die Antwort der Request an den Sender zurück.
+Ein Log Eintrag hilft beim Debuggen. Die Hauptarbeit wird aber in dem 'DatenParser' gemacht welche alle relevanten
+Daten zurückgibt. Die Daten (autoSense JSON) für den 'DataParser' werden im Request übergeben. Die letzte Zeile baut ein JSON
+Objekt und gibt die Antwort auf den Request an den Sender zurück.
 
 
 ### Crash Image
-Die Crash Image Methode gibt ein Bild zurück welches den Einschlag und die Maximale Kraft des Umfalls illustriert.
+Die Crash Image Methode gibt ein Bild zurück, welches den Einschlag und die maximale Krafteinwirkung des Unfalls illustriert.
 
 Der Python Code dazu sieht folgendermassen aus:
 
@@ -69,23 +69,23 @@ async def crash_image(request):
     return await file(d.get_image())
 ```
 
-Die Route der Request ist '/api/v1/getCrashImage'. Ein Offset zum Zeitpunkt des Aufpralls kann übergebene werden
+Die Route des Requests ist '/api/v1/getCrashImage'. Ein Offset zum Zeitpunkt des Aufpralls kann übergebene werden
 ('timeOffsetMS'). Zusätzlich muss wieder das JSON vom autoSense Sensor übergeben werden.
-Der 'DatenParser' übernimmt wieder die Hauptaufgabe von dieser Request.
-Zusätzlich wir die 'DamageImage' Klasse zum generieren des Bildes verwendet. Anschliessend wird das generierte Bild
-zurückgegeben
+Der 'DataParser' übernimmt wieder die Hauptaufgabe dieses Requests.
+Zusätzlich wird die 'DamageImage' Klasse zum generieren des Bildes verwendet. Anschliessend wird das generierte Bild
+zurückgegeben.
 
 
 ### Play
-Zusätzlich zur gegebenen Aufgabenstellung haben wir noch eine Request eingebaut, welche mehrere Bilder zurückgegeben um
+Zusätzlich zur gegebenen Aufgabenstellung haben wir noch eine Funktion eingebaut, welche mehrere Bilder zurückgibt, um
 den Unfall genauer zu inspizieren.
-Es wird quasi das selbe gemacht wie bei der 'Crash Image' Request. Nur wird eine Liste von Bilder zurückgegeben, welche
-dann im Browser dargestellt werden können. Diese Methode ist nicht optimal da alle Bilder zuerst berechnet werden
-müssen und nicht gestreamt wird.
+Es wird grundsätzlich dasselbe gemacht wie beim 'Crash Image' Request, es wird aber eine Liste von Bildern zurückgegeben, welche
+dann im Browser dargestellt werden können. Diese Methode ist nicht optimal, da alle Bilder zuerst berechnet werden
+müssen und nicht gestreamt werden kann.
 
 
 ## Frontend
-Das Frontend ist sehr simple Aufgebaut:
+Das Frontend ist sehr simpel aufgebaut:
 
 |Frontend Design                                                                    |
 |:---------------------------------------------------------------------------------:|
@@ -93,9 +93,9 @@ Das Frontend ist sehr simple Aufgebaut:
 
 
 
-Das wichtigste ist die Drag & Drop Zone um ein JSON File von autoSense hochzuladen. Sobald man ein valides JSON
-hochgeladen hat werden im Hintergrund die beiden API Requests an das Backend gemacht. Anschliessend wird das Bild und die Daten (Filename, impactAngle & offsetMaximumForce) angezeigt. Optional kann noch der 'customOffset'
-eingestellt werden nicht die MaximalKraft sondern einen anderen Zeitpunkt des Aufpralls darzustellen.
+Das UI bietet eine Drag & Drop Zone um ein JSON File von autoSense hochzuladen. Sobald man ein valides JSON
+hochgeladen hat werden im Hintergrund die beiden API Requests an das Backend gesendet. Anschliessend werden das Bild und die Daten (Filename, impactAngle & offsetMaximumForce) angezeigt. Optional kann noch der 'customOffset'
+eingestellt werden, um statt der Maximal-Kraft die Kraft zu einem anderen Zeitpunkt des Aufpralls darzustellen.
 
 Frontend mit hochgeladenem JSON:
 
@@ -104,45 +104,13 @@ Frontend mit hochgeladenem JSON:
 |![Frontend mit geladenem JSON](img/frontend_loaded.png "FrontEnd mit geladenem JSON"){ width=400px }     |
 
 ## Docker
-Docker ist ein Tool um Images zu kreieren, welche dann in einem Container ausgeführt werden können. Somit kann eine
+Docker ist ein Tool um Images zu kreieren, welche dann in einem sogenannten Container ausgeführt werden können. Dadurch kann eine
 Applikation unabhängig vom Betriebssystem ausgeführt werden.
-Ausserdem wäre es möglich eine Applikation zu skalieren indem mehrere Container auf verschiedenen Systemen ausgeführt
-werden und ein Proxy dazwischen geschaltet wird.
-
-Unser Dockerfile, welches das Image beschreibt, sieht folgendermassen aus:
-
-```bash
-FROM python:3.7-slim
-
-#Install libs and tools needed for building python wheels
-RUN apt-get update
-RUN yes | apt-get install build-essential
-RUN yes | apt-get install cmake git libgtk2.0-dev \
-          pkg-config libavcodec-dev libavformat-dev libswscale-dev
-RUN yes | apt-get install python-dev python-numpy libtbb2 libtbb-dev \
-          libjpeg-dev libpng-dev
-
-#Install python dependencies
-COPY requirements.txt /app/
-RUN cd /app && pip install -r requirements.txt
-
-#Copy application to /app
-COPY data/* /app/data/
-COPY frontend/* /app/frontend/
-COPY helper/* /app/helper/
-COPY images/* /app/images/
-COPY *.py /app/
-
-#Change working directory to /app
-WORKDIR /app
-
-#Run server
-ENTRYPOINT [ "python", "server.py" ]
-
-```
+Ausserdem ist es möglich, eine Applikation zu skalieren indem mehrere Container auf verschiedenen Systemen ausgeführt
+werden und ein Proxy dazwischen geschaltet wird.  
 
 Unser Basis Image ist ein Python3.7 Image von DockerHub (einer öffentlichen Registry bei der Images hochgeladen werden).
-Wir installieren zuerst alle Abhängigkeiten damit die zusätzlichen Python Libraries (wie zum Beispiel numpy) installiert
+Wir installieren zuerst alle Abhängigkeiten, damit die zusätzlichen Python Libraries (wie zum Beispiel numpy) installiert
 werden können.
-Anschliessend werden die Python Abhängigkeiten installiert bevor schlussendlich alle Files der Applikation in das Image
-kopiert werden. Zum Schluss wird die Working Directory (WORKDIR) und der Entrypoint (der Webserver) spezifiziert.
+Anschliessend werden die Python Abhängigkeiten installiert, bevor schlussendlich alle Files der Applikation in das Image
+kopiert werden. Zum Schluss wird die Working Directory und der Entrypoint (der Webserver) spezifiziert.
