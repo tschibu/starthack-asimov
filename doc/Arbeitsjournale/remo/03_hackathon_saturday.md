@@ -4,7 +4,7 @@ Der Samstag steht ganz im Zeichen vom programmieren, hacken und coden.
 
 ## - 06.00 Uhr - Schlafen
 
-Nach etwa 24 Stunden ohne Schlaf und 7 Stunden am Stück programmieren habe ich für mich bemerkt, dass ich sehr viel kleine, aber feine Fehler mache. Sei es kleinere Typo's oder aber dass ich sehr lange für relativ einfache programmier Tätigkeiten brauchte um diese zu lösen. Dass hat mich dann dazu bewogen, nach dem Frühstück für ein oder zwei Stunden schlafen zu gehen. Geschlafen hatte ich neben dem Notebook am Boden auf einer aufblasbare Matratze.
+Nach etwa 24 Stunden ohne Schlaf und 7 Stunden am Stück programmieren habe ich für mich bemerkt, dass ich sehr viel kleine, aber feine Fehler mache. Sei es kleinere Typos oder aber dass ich sehr lange für relativ einfache programmier Tätigkeiten brauchte um diese zu lösen. Dass hat mich dann dazu bewogen, nach dem Frühstück für ein oder zwei Stunden schlafen zu gehen. Geschlafen hatte ich neben dem Notebook am Boden auf einer aufblasbare Matratze.
 
 ## - 08.00 Uhr - Hacking / Coding
 

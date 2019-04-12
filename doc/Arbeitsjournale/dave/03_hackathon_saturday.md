@@ -18,7 +18,7 @@ weiteres umgerechnet werden konnten. Es musste zuerst mittels einer weiteren Hil
 
 ## - 12.00 Uhr - Lunch
 
-Um 12:00 Uhr ging es dann zum Lunch, Spätzlipfanne mit Speckwürfeln.
+Um 12:00 Uhr ging es dann zum Lunch, Reis und Chili con Carne.
 Übrigens, was die Ganze Verpflegung und die Organisation rund um den Hackathon anbelangt: Respekt.
 
 Rund um die Uhr war der hilfsbereite Staff vom STARTHack anwesend.
