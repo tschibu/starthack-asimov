@@ -4,7 +4,7 @@
 ## Funktionsumfang
 
 Mit der Klasse Data_Parser werden alle Funktionalitäten im Zusammenhang mit der Datenverarbeitung, Auswertung und Konvertierung erledigt.
-Das beinhaltet das Einlesen der JSON Daten, Ausfiltern der relevanten Key:Value Paare, transformieren der relativen Werte sowie die mathematischen Umrechnungen auf die geforderten Output Daten (Kraft & Winkel des Einschlags)
+Das beinhaltet das einlesen der JSON Daten, ausfiltern der relevanten Key:Value Paare, transformieren der relativen Werte sowie die mathematischen umrechnungen auf die geforderten Output Daten (Kraft & Winkel des Einschlags)
 
 
 ### Software Abhängigkeiten
@@ -34,7 +34,7 @@ Teilfunktion: Data Parser
 
 ## Implementierung im Projekt
 
-Innerhalb von dem Projekt wird die Funktion `parse_input_data` wie folgt benutzt:
+Innerhalb des Projekts wird die Funktion `parse_input_data` wie folgt benutzt:
 
 Die Json Daten werden an die Klasse "data_parser" übergeben, welche danach die Rückgabewerte Kraft, Winkel und Zeit liefert.
 Diese Informationen werden einem drawer-Objekt übergeben, welches anhand dieser Parameter das Einschlagsbild zeichnet.

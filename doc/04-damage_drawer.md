@@ -3,7 +3,7 @@
 
 ## Funktionsumfgang
 
-Mit der Klasse DamageImage (File: `damage_image.py`) werden alle Funktionalitäten im Zusammenhang mit der Bild-Generierung zusammengebündelt. Dies umfasst als Beispiel das Erkennen der Konturen von dem Auto, das Zeichnen der Beschädigung wie auch das Beschriften der Millisekunden des Aufpralls, die Crash-ID und weitere Informationen.
+Mit der Klasse DamageImage (File: `damage_image.py`) werden alle Funktionalitäten im Zusammenhang mit der Bild-Generierung gebündelt. Dies umfasst zum Beispiel das Erkennen der Konturen von dem Auto, das Zeichnen der Beschädigung wie auch das Beschriften der Millisekunden des Aufpralls, die Crash-ID und weitere Informationen.
 
 
 ## Funktiondesign
@@ -40,7 +40,7 @@ Teilfunktion: Damage Image
 
 ## Implementierung im Projekt
 
-Innerhalb von dem Projekt wird die Funktion `get_image` wie folgt benutzt:
+Innerhalb des Projekts wird die Funktion `get_image` wie folgt benutzt:
 
 ![Verwendung von dem Damage drawer](img/STARTHack_damage_image_usage.png "Verwendung von dem Damage drawer")
 

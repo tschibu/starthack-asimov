@@ -3,7 +3,7 @@ Für die Challenge ist eine REST API notwendig. Diese ist genau spezifiziert und
 Funktionen. Wir haben im Verlauf des Projekts noch ein UI gemacht, um die Requests einfacher testen zu können und
 dem User eine einfache Verwendung zu bieten. Da in der Challenge erwähnt wird, dass das Hosting
 auch berücksichtig werden sollte, verwenden wir Docker; die Applikation kann dadurch
-überall laufen gelassen werden, wo Docker installiert ist. Heutzutage ist das eine gängige Art und Weise
+überall betrieben werden, wo Docker installiert ist. Heutzutage ist das eine gängige Art und Weise
 etwas auf einem Server laufen zu lassen und bietet dazu auch die Möglichkeit, die Applikation zu skalieren
 
 
@@ -32,9 +32,9 @@ async def crash_info(request):
                  'offsetMaximumForce': max_force_offset})
 ```
 
-Crash_info ist eine Asynchrone Methode welche als 'POST' Request markiert ist und die 'api/v1/getCrashInfo' Route nutzt. Die
+Crash_info ist eine asynchrone Methode welche als 'POST' Request markiert ist und die 'api/v1/getCrashInfo' Route nutzt. Die
 Annotationen werden von dem 'sanic' Framework bereitgestellt.
-Ein Log Eintrag hilft beim Debuggen. Die Hauptarbeit wird aber in dem 'DatenParser' gemacht welche alle relevanten
+Ein Log Eintrag hilft beim Debuggen. Die Hauptarbeit wird aber im 'DataParser' gemacht, welcher alle relevanten
 Daten zurückgibt. Die Daten (autoSense JSON) für den 'DataParser' werden im Request übergeben. Die letzte Zeile baut ein JSON
 Objekt und gibt die Antwort auf den Request an den Sender zurück.
 
@@ -81,7 +81,7 @@ Zusätzlich zur gegebenen Aufgabenstellung haben wir noch eine Funktion eingebau
 den Unfall genauer zu inspizieren.
 Es wird grundsätzlich dasselbe gemacht wie beim 'Crash Image' Request, es wird aber eine Liste von Bildern zurückgegeben, welche
 dann im Browser dargestellt werden können. Diese Methode ist nicht optimal, da alle Bilder zuerst berechnet werden
-müssen und nicht gestreamt werden kann.
+müssen und nicht gestreamt werden können.
 
 
 ## Frontend

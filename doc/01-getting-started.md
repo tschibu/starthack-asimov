@@ -2,7 +2,7 @@
 # Getting Started
 
 ## Inspiration
-Die Challenge von autoSense (autoSense ist eine Tochtergesellschaft der Swisscom AG) bot Teilaufgaben wie physikalische Berechnungen, Visualisierung, Präsentation und Kommunikation durch Webtechnologien, zu welchen wir bereits ein fundiertes Wissen besassen. Das war dann auch unsere Motivation, uns in dieser Challenge zu messen.
+Die Challenge von autoSense (autoSense ist eine Tochtergesellschaft der Swisscom AG) bot Teilaufgaben wie physikalische Berechnungen, Visualisierung sowie Präsentation und Kommunikation durch Webtechnologien, zu welchen wir bereits ein fundiertes Wissen besassen. Das war dann auch unsere Motivation, uns in dieser Challenge zu messen.
 
 
 ## Um was geht es?
@@ -21,11 +21,11 @@ Um dem Projekt einige Extras hinzuzufügen, haben wir uns entschieden, ein klein
 
 ## Herausforderungen
 Die Mathematik, um den Aufprall zu berechnen, hat definitiv sehr viel Zeit in Anspruch genommen.
-Wir haben manchmal einige komische Werte bekommen - dass lag zum Teil daran, dass wir auf ein Transformation-Problem gestossen sind. Nach der Behebung von diesen Problemen sahen dann die Visualisierungen einheitlicher aus.
+Wir haben manchmal einige merkwürdige Werte bekommen - dass lag zum Teil daran, dass wir auf ein Transformations-Problem gestossen sind. Nach der Behebung dieses Problems sahen dann die Visualisierungen einheitlicher aus.
 
 
 ## Accomplishments
-Wir sind stolz darauf:
+Wir sind stolz auf:
 * Solide Mathematik
 * Maintainable Code
 * Clean Code
@@ -34,7 +34,7 @@ Wir sind stolz darauf:
 
 ## Was wir gelernt haben
 Wir haben viel Mathematik/Physik angewendet, das meiste haben wir in der Schule einmal gelernt aber nie richtig angewendet.
-Der Hackathon war für als Gruppe ausserdem ein wirklich gutes Training. Wir haben gelernt, wie man besser und effizienter miteinander zusammenarbeitet, um ein grösseres Projekt wie die autoSense-Challenge anzugehen.
+Der Hackathon war für uns als Gruppe ausserdem ein wirklich gutes Training. Wir haben gelernt, wie man besser und effizienter miteinander zusammenarbeitet, um ein grösseres Projekt wie die autoSense-Challenge anzugehen.
 
 
 ## What's next?
