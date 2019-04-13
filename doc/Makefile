@@ -1,16 +1,11 @@
-EPUBPARAMS=--toc -N -s -t epub
-PDFPARAMS=--toc -N -s -t latex --pdf-engine=xelatex -V documentclass=scrartcl -V papersize=a4 -V lang=en -V urlcolor=blue -V linkcolor=blue
-FONTS=-V mainfont='DejaVu Serif' -V sansfont='DejaVu Sans' -V monofont='DejaVu Sans Mono'
+PDFPARAMS=--toc -N -s -t latex --pdf-engine=xelatex -f markdown-implicit_figures -V documentclass=scrreprt -V papersize=a4 -V lang=de -V urlcolor=blue -V linkcolor=blue -V geometry:margin=2.54cm
+FONTS=-V mainfont='DejaVu Serif' -V sansfont='DejaVu Sans' -V monofont='DejaVu Sans Mono' -V fontsize=10pt
 DATE=-V date="`date +'%Y-%m-%d'`"
 
-all: starthack.pdf starthack.epub
+all: clean pdf
 
-starthack.pdf: *.md
-	pandoc $(PDFPARAMS) $(FONTS) $(DATE) *.md -o starthack.pdf
-
-starthack.epub: *.md
-	pandoc $(EPUBPARAMS) $(DATE) *.md -o starthack.epub
+pdf: *.md
+	pandoc $(PDFPARAMS) $(FONTS) $(DATE) *.md -o starthack_team_asimov_doc.pdf
 
 clean:
-	rm -f starthack.pdf
-	rm -f starthack.epub
+	rm -f starthack_team_asimov_doc.pdf
