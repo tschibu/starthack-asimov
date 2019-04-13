@@ -24,6 +24,7 @@ Diese Daten werden danach mit einer vordefinierten Kalibration transformiert und
 Zum Schluss erfolgt die Umwandlung der Kräfte in einen Winkel, relativ zur virtuellen Bildmitte.
 Zeit, Kraft und Winkel werden danach zur Visualisierung an die Klasse `Damage_drawer` übergeben.
 
+\pagebreak
 
 ## Klasse DataParser
 
