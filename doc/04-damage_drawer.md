@@ -35,14 +35,14 @@ Zu Beginn wurde mittels OpenCV die Datei eingelesen und hardcoded ein Kreis und 
 
 Teilfunktion: Damage Image
 
-![Klassendiagramm Damage drawer](img/STARTHack_damage_image.png "Klassendiagramm Damage drawer")
+![Klassendiagramm Damage drawer](img/STARTHack_damage_image.png "Klassendiagramm Damage drawer"){ width=400px }
 
 
 ## Implementierung im Projekt
 
 Innerhalb des Projekts wird die Funktion `get_image` wie folgt benutzt:
 
-![Verwendung von dem Damage drawer](img/STARTHack_damage_image_usage.png "Verwendung von dem Damage drawer")
+![Verwendung von dem Damage drawer](img/STARTHack_damage_image_usage.png "Verwendung von dem Damage drawer"){ width=400px }
 
 Innerhalb vom `server.py` wird ein Damage drawer Objekt erstellt und mittels der Funktion `get_image` die fertig gerenderte Bilddatei zurückgegeben und auf der Webseite dargestellt.
 
